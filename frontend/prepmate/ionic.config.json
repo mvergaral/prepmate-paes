@@ -1,0 +1,7 @@
+{
+  "name": "prepmate",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
