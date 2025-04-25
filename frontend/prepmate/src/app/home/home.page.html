@@ -1,20 +1,27 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<div class="min-h-screen flex flex-col items-center justify-center p-6 bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark font-sans transition-colors duration-300">
+  <div class="w-full max-w-xl text-center space-y-6">
+    <h1 class="text-4xl font-bold text-primary">🎓 PrepMate PAES</h1>
+    <p class="text-lg text-text-muted">
+      Tu compañero inteligente para preparar la prueba PAES de forma personalizada y eficiente.
+    </p>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+    <div class="flex flex-col sm:flex-row justify-center gap-4 mt-6">
+      <a [routerLink]="['/login']"
+         class="px-6 py-3 text-white bg-primary hover:bg-primary-light rounded-xl transition focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
+        Iniciar Sesión
+      </a>
+      <a [routerLink]="['/register']"
+         class="px-6 py-3 bg-white dark:bg-slate-700 text-primary dark:text-white border border-primary hover:bg-primary hover:text-white dark:hover:bg-primary-light rounded-xl transition focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
+        Crear Cuenta
+      </a>
+    </div>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <button
+      class="mt-10 text-sm underline text-text-muted hover:text-primary transition"
+      (click)="toggleDarkMode()"
+      aria-label="Cambiar entre modo claro y oscuro"
+    >
+      Cambiar a modo {{ isDark ? 'claro' : 'oscuro' }}
+    </button>
   </div>
-</ion-content>
+</div>
