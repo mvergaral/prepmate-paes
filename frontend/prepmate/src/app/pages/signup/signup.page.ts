@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -9,17 +10,28 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class SignupPage {
   signupForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  private passwordMatchValidator(form: FormGroup) {
+    const password = form.get('password')?.value;
+    const confirmPassword = form.get('confirmPassword')?.value;
+    return password === confirmPassword ? null : { passwordMismatch: true };
+  }
+
+  constructor(private fb: FormBuilder, private router: Router) {
     this.signupForm = this.fb.group({
-      name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
+      confirmPassword: ['', Validators.required],
+      terms: [false, Validators.requiredTrue]
+    }, {
+      validators: this.passwordMatchValidator
     });
   }
 
   onSubmit() {
     if (this.signupForm.valid) {
-      console.log('✅ Registro enviado:', this.signupForm.value);
+      console.log('✅ Cuenta creada:', this.signupForm.value);
+
+      this.router.navigate(['/profile']);
     } else {
       console.log('❌ Formulario inválido');
     }

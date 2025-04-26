@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
+import { ComponentsModule } from '../../components/components.module';
 
 import { SignupPageRoutingModule } from './signup-routing.module';
 
@@ -14,7 +15,8 @@ import { SignupPage } from './signup.page';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    SignupPageRoutingModule
+    SignupPageRoutingModule,
+    ComponentsModule
   ],
   declarations: [SignupPage]
 })

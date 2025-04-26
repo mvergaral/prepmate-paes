@@ -7,14 +7,17 @@ import { RouterModule } from '@angular/router';
 import { HomePage } from './home.page';
 import { HomePageRoutingModule } from './home-routing.module';
 
+import { ComponentsModule } from '../components/components.module';
+
 @NgModule({
   declarations: [HomePage],
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule, // necesario para routerLink
-    HomePageRoutingModule
+    RouterModule,
+    HomePageRoutingModule,
+    ComponentsModule
   ]
 })
 export class HomePageModule {}

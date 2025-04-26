@@ -1,17 +1,12 @@
-<div class="min-h-screen bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark flex items-center justify-center px-6">
-  <div class="w-full max-w-md bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-xl">
+<div class="min-h-screen bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark flex flex-col px-6 py-6 justify-center items-center">
+  <div class="flex justify-start">
+    <app-logo class="mt-6"></app-logo>
+  </div>
+
+  <div class="w-full max-w-md bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-xl mt-8">
     <h1 class="text-2xl font-bold text-primary mb-6">Crear cuenta</h1>
 
     <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="space-y-4">
-      <div>
-        <label class="block text-sm mb-1">Nombre completo</label>
-        <input
-          type="text"
-          formControlName="name"
-          class="w-full px-4 py-2 border rounded-lg bg-background-light dark:bg-slate-700 text-text-light dark:text-white focus:outline-none focus:ring-2 focus:ring-primary"
-        />
-      </div>
-
       <div>
         <label class="block text-sm mb-1">Correo electrónico</label>
         <input
@@ -30,6 +25,27 @@
         />
       </div>
 
+      <div>
+        <label class="block text-sm mb-1">Confirmar contraseña</label>
+        <input
+          type="password"
+          formControlName="confirmPassword"
+          class="w-full px-4 py-2 border rounded-lg bg-background-light dark:bg-slate-700 text-text-light dark:text-white focus:outline-none focus:ring-2 focus:ring-primary"
+        />
+      </div>
+
+      <div class="flex items-center gap-2 text-sm text-text-muted">
+        <input
+          id="terms"
+          type="checkbox"
+          formControlName="terms"
+          class="accent-primary focus:ring-primary"
+        />
+        <label for="terms" class="select-none">
+          Acepto los <a href="#" class="text-primary underline">términos y condiciones</a>.
+        </label>
+      </div>
+
       <button
         type="submit"
         [disabled]="signupForm.invalid"
@@ -41,6 +57,12 @@
       <div class="text-sm text-center text-text-muted mt-4">
         ¿Ya tienes cuenta?
         <a [routerLink]="['/login']" class="underline text-primary">Inicia sesión</a>
+      </div>
+
+      <div class="mt-6 text-center text-sm text-text-muted">
+        <a [routerLink]="['/home']" class="underline hover:text-primary transition">
+          ← Volver al inicio
+        </a>
       </div>
     </form>
   </div>

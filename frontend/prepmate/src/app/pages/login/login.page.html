@@ -1,5 +1,9 @@
-<div class="min-h-screen bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark flex items-center justify-center px-6">
-  <div class="w-full max-w-md bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-xl">
+<div class="min-h-screen bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark flex flex-col items-center justify-center px-6 py-6">
+  <div class="flex justify-start">
+    <app-logo class="mt-6"></app-logo>
+  </div>
+
+  <div class="w-full max-w-md bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-xl mt-8">
     <h1 class="text-2xl font-bold text-primary mb-6">Iniciar sesión</h1>
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-4">
@@ -32,6 +36,12 @@
       <div class="text-sm text-center text-text-muted mt-4">
         ¿No tienes cuenta?
         <a [routerLink]="['/signup']" class="underline text-primary">Regístrate</a>
+      </div>
+
+      <div class="mt-6 text-center text-sm text-text-muted">
+        <a [routerLink]="['/home']" class="underline hover:text-primary transition">
+          ← Volver al inicio
+        </a>
       </div>
     </form>
   </div>
