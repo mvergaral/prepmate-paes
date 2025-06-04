@@ -33,22 +33,13 @@ Para ejecutar el backend, sigue los siguientes pasos desde el directorio raíz d
 cd backend
 ```
 
-### 2. Ejecutar el script de configuración
-
-Este script crea el entorno virtual, instala dependencias y configura la estructura del backend:
-
-```bash
-chmod +x setup.sh
-./setup.sh
-```
-
-### 3. Activar el entorno virtual
+### 2. Activar el entorno virtual
 
 ```bash
 source venv/bin/activate
 ```
 
-### 4. Configurar las variables de entorno
+### 3. Configurar las variables de entorno
 
 Edita el archivo `.env` con tus credenciales de PostgreSQL:
 
@@ -58,20 +49,20 @@ FLASK_ENV=development
 FLASK_APP=run.py
 ```
 
-### 5. Crear la base de datos (si aún no existe)
+### 4. Crear la base de datos (si aún no existe)
 
 ```bash
 createdb prepmate
 ```
 
-### 6. Aplicar las migraciones a la base de datos
+### 5. Aplicar las migraciones a la base de datos
 
 ```bash
 flask db migrate -m "Initial migration"
 flask db upgrade
 ```
 
-### 7. Ejecutar el servidor Flask
+### 6. Ejecutar el servidor Flask
 
 ```bash
 flask run
