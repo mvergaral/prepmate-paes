@@ -1,2 +1,5 @@
+from .controllers import auth_bp
+
+
 def register_routes(app):
-    pass  # Aquí se registrarán los blueprints
+    app.register_blueprint(auth_bp, url_prefix='/auth')
