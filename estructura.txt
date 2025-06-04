@@ -1,0 +1,46 @@
+.
+├── backend
+│   ├── app
+│   │   ├── __init__.py
+│   │   ├── config
+│   │   ├── controllers
+│   │   ├── models
+│   │   ├── repositories
+│   │   ├── routes.py
+│   │   ├── schemas
+│   │   └── services
+│   ├── migrations
+│   │   ├── alembic.ini
+│   │   ├── env.py
+│   │   ├── README
+│   │   ├── script.py.mako
+│   │   └── versions
+│   ├── requirements.txt
+│   ├── run.py
+│   ├── setup.sh
+│   └── venv
+│       ├── bin
+│       ├── include
+│       ├── lib
+│       └── pyvenv.cfg
+├── estructura.txt
+├── frontend
+│   └── prepmate
+│       ├── angular.json
+│       ├── capacitor.config.ts
+│       ├── ionic.config.json
+│       ├── karma.conf.js
+│       ├── package-lock.json
+│       ├── package.json
+│       ├── postcss.config.js
+│       ├── src
+│       ├── tailwind.config.js
+│       ├── tsconfig.app.json
+│       ├── tsconfig.json
+│       ├── tsconfig.spec.json
+│       └── www
+├── Otros
+│   └── Requerimientos_PrepmatePaes_Entrega_1.pdf
+└── README.md
+
+20 directories, 24 files
