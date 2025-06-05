@@ -77,7 +77,7 @@ def signup_admin():
     )
     user.set_password(data['password'])
     db.session.add(user)
-    db.session.commit()
+    db.session.flush()  # Save user and retrieve user.id without committing
 
     # Crear instancia Admin enlazada al User
     admin = Admin(
