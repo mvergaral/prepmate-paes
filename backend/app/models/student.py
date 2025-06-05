@@ -1,5 +1,4 @@
 from .. import db
-from werkzeug.security import generate_password_hash, check_password_hash
 from .user import User
 
 class Student(User):
@@ -10,5 +9,3 @@ class Student(User):
     rut = db.Column(db.String(20), unique=True, nullable=False)
     age = db.Column(db.Integer, nullable=False)
     accepted_terms = db.Column(db.Boolean, default=False)
-
-    # Métodos de password ya están en User

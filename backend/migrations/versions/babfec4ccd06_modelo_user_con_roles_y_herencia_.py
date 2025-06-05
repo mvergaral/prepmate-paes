@@ -34,7 +34,7 @@ def upgrade():
     )
     with op.batch_alter_table('students', schema=None) as batch_op:
         batch_op.drop_constraint(batch_op.f('students_email_key'), type_='unique')
-        batch_op.create_foreign_key(None, 'users', ['id'], ['id'])
+        batch_op.create_foreign_key('fk_students_user_id', 'users', ['id'], ['id'])
         batch_op.drop_column('password_hash')
         batch_op.drop_column('email')
 
@@ -46,7 +46,7 @@ def downgrade():
     with op.batch_alter_table('students', schema=None) as batch_op:
         batch_op.add_column(sa.Column('email', sa.VARCHAR(length=120), autoincrement=False, nullable=False))
         batch_op.add_column(sa.Column('password_hash', sa.VARCHAR(length=128), autoincrement=False, nullable=False))
-        batch_op.drop_constraint(None, type_='foreignkey')
+        batch_op.drop_constraint('fk_students_user_id', type_='foreignkey')
         batch_op.create_unique_constraint(batch_op.f('students_email_key'), ['email'], postgresql_nulls_not_distinct=False)
 
     op.drop_table('admins')

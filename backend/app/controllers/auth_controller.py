@@ -1,14 +1,31 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import create_access_token
 from .. import db
-from ..models import Student
-from ..schemas import StudentSchema
-from ..models.user import User
-from ..schemas.user_schema import UserSchema
+from ..models import Student, User, Admin
+from ..schemas import StudentSchema, UserSchema, AdminSchema
 
 auth_bp = Blueprint('auth', __name__)
 student_schema = StudentSchema()
+admin_schema = AdminSchema()
 user_schema = UserSchema()
+
+@auth_bp.route('/login', methods=['POST'])
+def login():
+    data = request.get_json() or {}
+    if 'email' not in data or 'password' not in data:
+        return jsonify({'message': 'Missing credentials'}), 400
+
+    user = User.query.filter_by(email=data['email']).first()
+    if not user or not user.check_password(data['password']):
+        return jsonify({'message': 'Invalid credentials'}), 401
+
+    # Si es estudiante, obtener datos de Student
+    student = Student.query.filter_by(id=user.id).first() if user.role == 'student' else None
+    token = create_access_token(identity=user.id)
+    response = {'access_token': token, 'user': user_schema.dump(user)}
+    if student:
+        response['student'] = student_schema.dump(student)
+    return jsonify(response), 200
 
 @auth_bp.route('/signup', methods=['POST'])
 def signup():
@@ -44,24 +61,6 @@ def signup():
     token = create_access_token(identity=user.id)
     return jsonify({'access_token': token, 'user': user_schema.dump(user), 'student': student_schema.dump(student)}), 201
 
-@auth_bp.route('/login', methods=['POST'])
-def login():
-    data = request.get_json() or {}
-    if 'email' not in data or 'password' not in data:
-        return jsonify({'message': 'Missing credentials'}), 400
-
-    user = User.query.filter_by(email=data['email']).first()
-    if not user or not user.check_password(data['password']):
-        return jsonify({'message': 'Invalid credentials'}), 401
-
-    # Si es estudiante, obtener datos de Student
-    student = Student.query.filter_by(id=user.id).first() if user.role == 'student' else None
-    token = create_access_token(identity=user.id)
-    response = {'access_token': token, 'user': user_schema.dump(user)}
-    if student:
-        response['student'] = student_schema.dump(student)
-    return jsonify(response), 200
-
 @auth_bp.route('/signup-admin', methods=['POST'])
 def signup_admin():
     data = request.get_json() or {}
@@ -80,5 +79,16 @@ def signup_admin():
     db.session.add(user)
     db.session.commit()
 
+    # Crear instancia Admin enlazada al User
+    admin = Admin(
+        id=user.id,  # Hereda el id del User
+        name=data['name'],
+        rut=data['rut'],
+        age=data['age'],
+        accepted_terms=data.get('terms', False)
+    )
+    db.session.add(admin)
+    db.session.commit()
+
     token = create_access_token(identity=user.id)
-    return jsonify({'access_token': token, 'user': user_schema.dump(user)}), 201
+    return jsonify({'access_token': token, 'user': user_schema.dump(user), 'admin': admin_schema.dump(admin)}), 201
