@@ -23,7 +23,7 @@ def upgrade():
         batch_op.add_column(sa.Column('rut', sa.String(length=20), nullable=False))
         batch_op.add_column(sa.Column('age', sa.Integer(), nullable=False))
         batch_op.add_column(sa.Column('accepted_terms', sa.Boolean(), nullable=True))
-        batch_op.create_unique_constraint(None, ['rut'])
+        batch_op.create_unique_constraint('uq_admins_rut', ['rut'])
 
     with op.batch_alter_table('students', schema=None) as batch_op:
         batch_op.add_column(sa.Column('colegio', sa.String(length=120), nullable=True))
