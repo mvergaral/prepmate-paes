@@ -1,7 +1,7 @@
 from functools import wraps
 from flask import request, jsonify, g
 from flask_jwt_extended import decode_token, get_jwt_identity
-from flask_jwt_extended.exceptions import NoAuthorizationError, ExpiredSignatureError, InvalidHeaderError
+from flask_jwt_extended.exceptions import NoAuthorizationError, InvalidHeaderError
 from flask_jwt_extended import verify_jwt_in_request, get_jwt
 from werkzeug.exceptions import Unauthorized
 from flask import current_app
@@ -49,10 +49,8 @@ def jwt_required(fn):
             if is_token_blacklisted(jti):
                 return jsonify({'message': 'Token revocado'}), 401
             g.user = user
-        except ExpiredSignatureError:
-            return jsonify({'message': 'Token expirado'}), 401
         except (NoAuthorizationError, InvalidHeaderError):
-            return jsonify({'message': 'Token inválido'}), 401
+            return jsonify({'message': 'Token inválido o expirado'}), 401
         except Exception as e:
             return jsonify({'message': 'Error de autenticación', 'error': str(e)}), 401
         return fn(*args, **kwargs)

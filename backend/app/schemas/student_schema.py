@@ -13,3 +13,6 @@ class StudentSchema(SQLAlchemySchema):
     rut = auto_field()
     age = auto_field()
     accepted_terms = auto_field()
+    colegio = auto_field()
+    comuna = auto_field()
+    region = auto_field()
