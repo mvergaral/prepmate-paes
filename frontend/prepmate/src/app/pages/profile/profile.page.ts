@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { TokenService } from '../../services/token.service';
 
 @Component({
   selector: 'app-profile',
@@ -17,7 +18,8 @@ export class ProfilePage implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private tokenService: TokenService
   ) {
     this.profileForm = this.fb.group({
       nombre: ['', Validators.required],
@@ -37,8 +39,7 @@ export class ProfilePage implements OnInit {
     }
     this.loading = true;
     this.errorMsg = '';
-    // Simulación de obtención de token JWT (ajusta según tu auth real)
-    const token = localStorage.getItem('jwt_token');
+    const token = this.tokenService.getToken();
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });

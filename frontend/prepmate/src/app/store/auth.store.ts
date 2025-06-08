@@ -35,7 +35,7 @@ export class AuthStore {
 
   setSession(res: AuthResponse) {
     this.state = { token: res.access_token, user: res.student };
-    localStorage.setItem('token', this.state.token || '');
+    localStorage.setItem('jwt_token', this.state.token || '');
     localStorage.setItem('user', JSON.stringify(this.state.user));
     this.tokenSubject.next(this.state.token);
     this.userSubject.next(this.state.user);
