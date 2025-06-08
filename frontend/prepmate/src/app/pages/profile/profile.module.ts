@@ -9,6 +9,7 @@ import { ProfilePageRoutingModule } from './profile-routing.module';
 import { ComponentsModule } from '../../components/components.module';
 
 import { ProfilePage } from './profile.page';
+import { ProfileViewPage } from './profile-view.page';
 
 @NgModule({
   imports: [
@@ -20,6 +21,6 @@ import { ProfilePage } from './profile.page';
     ComponentsModule,
     HttpClientModule
   ],
-  declarations: [ProfilePage]
+  declarations: [ProfilePage, ProfileViewPage]
 })
 export class ProfilePageModule {}
