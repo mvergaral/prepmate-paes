@@ -7,10 +7,14 @@ from werkzeug.exceptions import Unauthorized
 from flask import current_app
 from datetime import datetime, timezone
 import redis
+import os
 
 
 # Configuración de Redis (ajusta el host/puerto según tu entorno)
-redis_client = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
+REDIS_HOST = os.getenv('REDIS_HOST', 'localhost')
+REDIS_PORT = int(os.getenv('REDIS_PORT', 6379))
+REDIS_DB = int(os.getenv('REDIS_DB', 0))
+redis_client = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB, decode_responses=True)
 
 BLACKLIST_PREFIX = 'jwt_blacklist:'
 

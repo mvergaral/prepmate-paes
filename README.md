@@ -111,7 +111,16 @@ El backend utiliza **Redis** como sistema de almacenamiento en memoria para func
    ```
    Debería responder con: `PONG`
 
-4. **Dependencia Python:**
+4. **Variables de entorno para Redis:**
+   Puedes personalizar la conexión a Redis agregando estas variables a tu archivo `.env`:
+   ```env
+   REDIS_HOST=localhost
+   REDIS_PORT=6379
+   REDIS_DB=0
+   ```
+   Si no las defines, se usarán los valores por defecto mostrados arriba.
+
+5. **Dependencia Python:**
    La librería `redis` ya está incluida en `requirements.txt`.
 
 > Si necesitas cambiar la configuración de conexión (host/puerto), edita la línea correspondiente en `app/services/auth_middleware.py`.
