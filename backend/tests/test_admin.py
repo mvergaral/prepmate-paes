@@ -1,16 +1,10 @@
-from .conftest import BaseTestCase
-from app.models import User, Admin, db
+from .conftest import BaseTestCase, UserFactory
+from app.models import Admin
 
 class TestAdminModel(BaseTestCase):
     def test_admin_creation(self):
         with self.app.app_context():
-            user = User(email='admin2@admin.com', role='admin')
-            user.set_password('adminpass2')
-            db.session.add(user)
-            db.session.flush()
-            admin = Admin(id=user.id, name='SuperAdmin', rut='5-5', age=40, accepted_terms=True)
-            db.session.add(admin)
-            db.session.commit()
+            _, admin = UserFactory.create_admin(email='admin2@admin.com', name='SuperAdmin', rut='5-5', age=40, accepted_terms=True)
             assert admin.name == 'SuperAdmin'
             assert admin.rut == '5-5'
             assert admin.age == 40

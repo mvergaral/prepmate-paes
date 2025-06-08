@@ -8,31 +8,31 @@ default_admin_kwargs = dict(name='Admin', rut='3-3', age=30, accepted_terms=True
 class UserFactory:
     @staticmethod
     def create_student(email='student@test.com', password='1234', **kwargs):
-        user = User(email=email, role='student')
-        user.set_password(password)
-        db.session.add(user)
-        db.session.flush()
-        student = Student(id=user.id, **{**default_student_kwargs, **kwargs})
+        student = Student(email=email, role='student', **{**default_student_kwargs, **kwargs})
+        student.set_password(password)
         db.session.add(student)
         db.session.commit()
-        return user, student
+        return student, student
 
     @staticmethod
     def create_admin(email='admin@test.com', password='adminpass', **kwargs):
-        user = User(email=email, role='admin')
-        user.set_password(password)
-        db.session.add(user)
-        db.session.flush()
-        admin = Admin(id=user.id, **{**default_admin_kwargs, **kwargs})
+        admin = Admin(email=email, role='admin', **{**default_admin_kwargs, **kwargs})
+        admin.set_password(password)
         db.session.add(admin)
         db.session.commit()
-        return user, admin
+        return admin, admin
+
+    @staticmethod
+    def create_user(email='user@test.com', password='1234', role='student'):
+        user = User(email=email, role=role)
+        user.set_password(password)
+        db.session.add(user)
+        db.session.commit()
+        return user
 
 class BaseTestCase(unittest.TestCase):
     def setUp(self):
-        self.app = create_app()
-        self.app.config['TESTING'] = True
-        self.app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
+        self.app = create_app({'SQLALCHEMY_DATABASE_URI': 'sqlite:///:memory:', 'TESTING': True})
         self.client = self.app.test_client()
         with self.app.app_context():
             db.create_all()

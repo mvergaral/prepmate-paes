@@ -9,7 +9,7 @@ class TestAuthEndpoints(BaseTestCase):
         with self.app.app_context():
             self.user, _ = UserFactory.create_student(email='test@auth.com', password='1234')
             from flask_jwt_extended import create_access_token
-            self.token = create_access_token(identity=self.user.id)
+            self.token = create_access_token(identity=str(self.user.id))
 
     def test_login_success(self):
         with self.app.app_context():
