@@ -76,6 +76,18 @@ El backend estará corriendo en: [http://localhost:5000](http://localhost:5000)
 pytest --cov=app backend/tests/
 ```
 
+### 8. Poblar la base de datos con datos de prueba
+
+Para generar información de ejemplo puedes ejecutar el script `seed.py` desde la
+carpeta `backend`:
+
+```bash
+python seed.py
+```
+
+Este comando crea usuarios, materias y ejercicios básicos para iniciar el
+desarrollo.
+
 ---
 
 ## Redis en el Proyecto
@@ -141,3 +153,8 @@ El backend utiliza **Redis** como sistema de almacenamiento en memoria para func
   ```bash
   deactivate
   ```
+
+## 📘 API Reference
+
+Para ver la documentación completa de la API, consulta [API_DOCS.md](backend/API_DOCS.md).
+
