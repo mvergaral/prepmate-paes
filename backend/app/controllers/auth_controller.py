@@ -1,8 +1,9 @@
 from flask import Blueprint, request, jsonify
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, get_jwt
 from .. import db
 from ..models import Student, User, Admin
 from ..schemas import StudentSchema, UserSchema, AdminSchema
+from ..services.auth_middleware import jwt_required, add_token_to_blacklist
 
 auth_bp = Blueprint('auth', __name__)
 student_schema = StudentSchema()
@@ -92,3 +93,12 @@ def signup_admin():
 
     token = create_access_token(identity=user.id)
     return jsonify({'access_token': token, 'user': user_schema.dump(user), 'admin': admin_schema.dump(admin)}), 201
+
+@auth_bp.route('/logout', methods=['POST'])
+@jwt_required
+def logout():
+    jwt_data = get_jwt()
+    jti = jwt_data['jti']
+    exp = jwt_data.get('exp')
+    add_token_to_blacklist(jti, exp)
+    return jsonify({'message': 'Sesión cerrada correctamente'}), 200
