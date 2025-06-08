@@ -34,5 +34,27 @@ class TestProfileEndpoints(BaseTestCase):
             res = self.client.put('/profile', json={'name': 'X'})
             self.assertEqual(res.status_code, 401)
 
+    def test_create_profile_success(self):
+        with self.app.app_context():
+            # Eliminar el perfil existente para simular creación
+            Student.query.filter_by(id=self.user.id).delete()
+            db.session.commit()
+            payload = {
+                'name': 'Nuevo',
+                'rut': '10-1',
+                'age': 25,
+                'colegio': 'Colegio Test',
+                'comuna': 'Comuna Test',
+                'region': 'Región Test',
+                'accepted_terms': True
+            }
+            res = self.client.post('/profile',
+                headers={'Authorization': f'Bearer {self.token}'},
+                json=payload)
+            self.assertEqual(res.status_code, 201)
+            data = json.loads(res.data)
+            self.assertEqual(data['student']['name'], 'Nuevo')
+            self.assertEqual(data['student']['colegio'], 'Colegio Test')
+
 if __name__ == '__main__':
     unittest.main()

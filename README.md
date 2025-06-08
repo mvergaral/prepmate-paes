@@ -58,7 +58,7 @@ createdb prepmate
 ### 5. Aplicar las migraciones a la base de datos
 
 ```bash
-flask db migrate -m "Initial migration"
+flask db migrate -m "Mensaje de migración"
 flask db upgrade
 ```
 
@@ -69,6 +69,12 @@ flask run
 ```
 
 El backend estará corriendo en: [http://localhost:5000](http://localhost:5000)
+
+### 7. Ejecutar los tests y ver cobertura
+
+```bash
+pytest --cov=app backend/tests/
+```
 
 ---
 

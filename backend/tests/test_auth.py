@@ -20,3 +20,11 @@ class TestAuthEndpoints(BaseTestCase):
         with self.app.app_context():
             res = self.client.post('/auth/login', json={'email': 'test@auth.com', 'password': 'wrong'})
             self.assertEqual(res.status_code, 401)
+
+    def test_logout_revokes_token(self):
+        with self.app.app_context():
+            res = self.client.post('/auth/logout', headers={'Authorization': f'Bearer {self.token}'})
+            self.assertEqual(res.status_code, 200)
+            # Intentar acceder a un endpoint protegido con el mismo token
+            res2 = self.client.put('/profile', headers={'Authorization': f'Bearer {self.token}'}, json={'name': 'X'})
+            self.assertEqual(res2.status_code, 401)
