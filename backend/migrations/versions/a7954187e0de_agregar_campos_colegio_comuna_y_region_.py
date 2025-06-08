@@ -41,7 +41,7 @@ def downgrade():
         batch_op.drop_column('colegio')
 
     with op.batch_alter_table('admins', schema=None) as batch_op:
-        batch_op.drop_constraint(None, type_='unique')
+        batch_op.drop_constraint('uq_admins_rut', type_='unique')
         batch_op.drop_column('accepted_terms')
         batch_op.drop_column('age')
         batch_op.drop_column('rut')

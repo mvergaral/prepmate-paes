@@ -54,9 +54,10 @@ def jwt_required(fn):
             if is_token_blacklisted(jti):
                 return jsonify({'message': 'Token revocado'}), 401
             g.user = user
+            return fn(*args, **kwargs)
         except (NoAuthorizationError, InvalidHeaderError):
             return jsonify({'message': 'Token inválido o expirado'}), 401
         except Exception as e:
-            return jsonify({'message': 'Error de autenticación', 'error': str(e)}), 401
-        return fn(*args, **kwargs)
+            current_app.logger.error('Unhandled exception during authentication: %s', str(e))
+            return jsonify({'message': 'Error de autenticación'}), 401
     return wrapper
