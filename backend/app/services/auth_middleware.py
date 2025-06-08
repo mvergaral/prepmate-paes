@@ -44,8 +44,9 @@ def jwt_required(fn):
             if not user:
                 return jsonify({'message': 'Usuario no encontrado'}), 401
             # Blacklist check
-            jti = get_jwt()['jti']
-            exp = get_jwt().get('exp')
+            jwt_data = get_jwt()
+            jti = jwt_data['jti']
+            exp = jwt_data.get('exp')
             if is_token_blacklisted(jti):
                 return jsonify({'message': 'Token revocado'}), 401
             g.user = user
