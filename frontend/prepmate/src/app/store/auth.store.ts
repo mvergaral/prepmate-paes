@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { AuthResponse } from '../services/auth.service';
+import { TokenService } from '../services/token.service';
 
 export interface SessionState {
   token: string | null;
@@ -20,8 +21,8 @@ export class AuthStore {
   private userSubject = new BehaviorSubject<any | null>(this.state.user);
   user$ = this.userSubject.asObservable();
 
-  constructor() {
-    const savedToken = localStorage.getItem('token');
+  constructor(private tokenService: TokenService) {
+    const savedToken = this.tokenService.getToken();
     const savedUser = localStorage.getItem('user');
     if (savedToken) {
       this.state.token = savedToken;
@@ -35,7 +36,7 @@ export class AuthStore {
 
   setSession(res: AuthResponse) {
     this.state = { token: res.access_token, user: res.student };
-    localStorage.setItem('jwt_token', this.state.token || '');
+    this.tokenService.setToken(this.state.token || '');
     localStorage.setItem('user', JSON.stringify(this.state.user));
     this.tokenSubject.next(this.state.token);
     this.userSubject.next(this.state.user);
@@ -43,7 +44,7 @@ export class AuthStore {
 
   clear() {
     this.state = { token: null, user: null };
-    localStorage.removeItem('token');
+    this.tokenService.removeToken();
     localStorage.removeItem('user');
     this.tokenSubject.next(null);
     this.userSubject.next(null);

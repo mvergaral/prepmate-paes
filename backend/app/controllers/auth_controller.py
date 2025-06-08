@@ -22,7 +22,7 @@ def login():
 
     # Si es estudiante, obtener datos de Student
     student = Student.query.filter_by(id=user.id).first() if user.role == 'student' else None
-    token = create_access_token(identity=user.id)
+    token = create_access_token(identity=str(user.id))
     response = {'access_token': token, 'user': user_schema.dump(user)}
     if student:
         response['student'] = student_schema.dump(student)
@@ -59,7 +59,7 @@ def signup():
     db.session.add(student)
     db.session.commit()
 
-    token = create_access_token(identity=user.id)
+    token = create_access_token(identity=str(user.id))
     return jsonify({'access_token': token, 'user': user_schema.dump(user), 'student': student_schema.dump(student)}), 201
 
 @auth_bp.route('/signup-admin', methods=['POST'])
@@ -91,7 +91,7 @@ def signup_admin():
     db.session.add(admin)
     db.session.commit()
 
-    token = create_access_token(identity=user.id)
+    token = create_access_token(identity=str(user.id))
     return jsonify({'access_token': token, 'user': user_schema.dump(user), 'admin': admin_schema.dump(admin)}), 201
 
 @auth_bp.route('/logout', methods=['POST'])

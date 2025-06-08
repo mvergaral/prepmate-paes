@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { TokenService } from '../../services/token.service';
+import { ProfileService } from '../../services/profile.service';
 
 @Component({
   selector: 'app-profile-view',
@@ -18,8 +17,7 @@ export class ProfileViewPage implements OnInit {
   successMsg = '';
 
   constructor(
-    private http: HttpClient,
-    private tokenService: TokenService,
+    private profile: ProfileService,
     private fb: FormBuilder
   ) {
     this.profileForm = this.fb.group({
@@ -38,7 +36,7 @@ export class ProfileViewPage implements OnInit {
 
   fetchProfile() {
     this.loading = true;
-    this.http.get<any>('/profile').subscribe({
+    this.profile.getProfile().subscribe({
       next: (res) => {
         this.user = res.student;
         this.profileForm.patchValue(this.user);
@@ -70,7 +68,7 @@ export class ProfileViewPage implements OnInit {
       return;
     }
     this.loading = true;
-    this.http.put<any>('/profile', this.profileForm.value).subscribe({
+    this.profile.updateProfile(this.profileForm.value).subscribe({
       next: (res) => {
         this.user = res.student;
         this.editMode = false;

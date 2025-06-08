@@ -16,6 +16,9 @@ REDIS_PORT = int(os.getenv('REDIS_PORT', 6379))
 REDIS_DB = int(os.getenv('REDIS_DB', 0))
 redis_client = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB, decode_responses=True)
 
+# Fallback blacklist storage when Redis is unavailable
+local_blacklist = set()
+
 BLACKLIST_PREFIX = 'jwt_blacklist:'
 
 
@@ -24,14 +27,27 @@ def add_token_to_blacklist(jti, exp=None):
     # Si se pasa la expiración, usarla para el TTL
     if exp:
         ttl = int(exp - datetime.now(timezone.utc).timestamp())
-        redis_client.setex(key, ttl, 'revoked')
+        try:
+            redis_client.setex(key, ttl, 'revoked')
+        except redis.RedisError as e:
+            current_app.logger.error('Redis error: %s', e)
+            local_blacklist.add(jti)
     else:
-        redis_client.set(key, 'revoked')
+        try:
+            redis_client.set(key, 'revoked')
+        except redis.RedisError as e:
+            current_app.logger.error('Redis error: %s', e)
+            local_blacklist.add(jti)
 
 
 def is_token_blacklisted(jti):
     key = BLACKLIST_PREFIX + jti
-    return redis_client.exists(key)
+    try:
+        if redis_client.exists(key):
+            return True
+    except redis.RedisError as e:
+        current_app.logger.error('Redis error: %s', e)
+    return jti in local_blacklist
 
 
 def jwt_required(fn):
@@ -44,7 +60,7 @@ def jwt_required(fn):
             verify_jwt_in_request()
             from ..models.user import User
             user_id = get_jwt_identity()
-            user = User.query.get(user_id)
+            user = User.query.get(int(user_id))
             if not user:
                 return jsonify({'message': 'Usuario no encontrado'}), 401
             # Blacklist check

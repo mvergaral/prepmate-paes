@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { TokenService } from '../../services/token.service';
+import { ProfileService } from '../../services/profile.service';
 
 @Component({
   selector: 'app-profile',
@@ -18,8 +17,7 @@ export class ProfilePage implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private http: HttpClient,
-    private tokenService: TokenService
+    private profile: ProfileService
   ) {
     this.profileForm = this.fb.group({
       nombre: ['', Validators.required],
@@ -39,11 +37,7 @@ export class ProfilePage implements OnInit {
     }
     this.loading = true;
     this.errorMsg = '';
-    const token = this.tokenService.getToken();
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-    this.http.post('/api/profile', this.profileForm.value, { headers }).subscribe({
+    this.profile.createProfile(this.profileForm.value).subscribe({
       next: () => {
         this.loading = false;
         // Redirigir o mostrar mensaje de éxito

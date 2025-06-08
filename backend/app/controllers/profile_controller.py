@@ -20,18 +20,22 @@ def create_profile():
     # Verificar si ya existe perfil
     if Student.query.filter_by(id=user.id).first():
         return jsonify({'message': 'El perfil ya existe'}), 400
-    student = Student(
-        id=user.id,
-        name=data['name'],
-        rut=data['rut'],
-        age=data['age'],
-        colegio=data['colegio'],
-        comuna=data['comuna'],
-        region=data['region'],
-        accepted_terms=data.get('accepted_terms', False)
+    db.session.execute(
+        Student.__table__.insert().values(
+            id=user.id,
+            name=data['name'],
+            rut=data['rut'],
+            age=data['age'],
+            colegio=data['colegio'],
+            comuna=data['comuna'],
+            region=data['region'],
+            accepted_terms=data.get('accepted_terms', False)
+        )
     )
-    db.session.add(student)
     db.session.commit()
+    db.session.expunge(user)
+    db.session.expire_all()
+    student = Student.query.get(user.id)
     return jsonify({'student': student_schema.dump(student)}), 201
 
 @profile_bp.route('/profile', methods=['PUT'])
