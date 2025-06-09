@@ -34,6 +34,27 @@ class TestProfileEndpoints(BaseTestCase):
             res = self.client.put('/profile', json={'name': 'X'})
             self.assertEqual(res.status_code, 401)
 
+    def test_get_profile_success(self):
+        with self.app.app_context():
+            res = self.client.get('/profile',
+                headers={'Authorization': f'Bearer {self.token}'}
+            )
+            self.assertEqual(res.status_code, 200)
+            data = json.loads(res.data)
+            self.assertEqual(data['student']['name'], 'Profile')
+
+    def test_get_profile_not_found(self):
+        with self.app.app_context():
+            user = UserFactory.create_user(email='no_profile@test.com')
+            token = create_access_token(identity=str(user.id))
+            res = self.client.get('/profile', headers={'Authorization': f'Bearer {token}'})
+            self.assertEqual(res.status_code, 404)
+
+    def test_get_profile_requires_auth(self):
+        with self.app.app_context():
+            res = self.client.get('/profile')
+            self.assertEqual(res.status_code, 401)
+
     def test_create_profile_success(self):
         with self.app.app_context():
             # Crear un usuario sin perfil para probar creación

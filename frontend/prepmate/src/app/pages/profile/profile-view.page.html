@@ -52,4 +52,11 @@
     <div *ngIf="successMsg" class="text-green-600 dark:text-green-400 text-center mt-4">{{ successMsg }}</div>
     <div *ngIf="errorMsg" class="text-red-500 text-center mt-4">{{ errorMsg }}</div>
   </div>
+
+  <button
+    class="mt-6 text-sm underline text-text-light dark:text-text-dark hover:text-primary transition"
+    (click)="toggleDarkMode()"
+  >
+    Cambiar a modo {{ isDark ? 'claro' : 'oscuro' }}
+  </button>
 </div>

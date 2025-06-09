@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProfileService } from '../../services/profile.service';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-profile-view',
@@ -15,10 +16,12 @@ export class ProfileViewPage implements OnInit {
   loading = false;
   errorMsg = '';
   successMsg = '';
+  isDark = false;
 
   constructor(
     private profile: ProfileService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private theme: ThemeService
   ) {
     this.profileForm = this.fb.group({
       name: ['', Validators.required],
@@ -28,6 +31,7 @@ export class ProfileViewPage implements OnInit {
       region: [''],
       age: ['', Validators.required]
     });
+    this.isDark = this.theme.isDarkMode();
   }
 
   ngOnInit(): void {
@@ -60,6 +64,11 @@ export class ProfileViewPage implements OnInit {
     this.profileForm.patchValue(this.user);
     this.successMsg = '';
     this.errorMsg = '';
+  }
+
+  toggleDarkMode() {
+    this.theme.toggleTheme();
+    this.isDark = this.theme.isDarkMode();
   }
 
   onSubmit() {
