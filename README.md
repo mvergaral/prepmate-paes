@@ -158,3 +158,8 @@ El backend utiliza **Redis** como sistema de almacenamiento en memoria para func
 
 Para ver la documentación completa de la API, consulta [API_DOCS.md](backend/API_DOCS.md).
 
+## Postman
+
+Importar este archivo en Postman para ejecutar las peticiones de ejemplo a la API.
+[postman/PrepMatePAES.postman_collection.json](postman/PrepMatePAES.postman_collection.json)
+
