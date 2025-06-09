@@ -53,3 +53,15 @@ def update_profile():
             setattr(student, field, data[field])
     db.session.commit()
     return jsonify({'student': student_schema.dump(student)}), 200
+
+
+@profile_bp.route('/profile', methods=['GET'])
+@jwt_required
+def get_profile():
+    user = g.user
+    if user.role != 'student':
+        return jsonify({'message': 'Solo los estudiantes pueden ver perfil'}), 403
+    student = Student.query.filter_by(id=user.id).first()
+    if not student:
+        return jsonify({'message': 'Perfil no encontrado'}), 404
+    return jsonify({'student': student_schema.dump(student)}), 200

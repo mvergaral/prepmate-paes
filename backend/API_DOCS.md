@@ -29,6 +29,7 @@ El token JWT devuelto debe incluirse en el encabezado `Authorization` para acced
 - **GET /protected/me** – Devuelve información básica del usuario autenticado.
 - **POST /profile** – Crea el perfil de un estudiante.
 - **PUT /profile** – Actualiza datos del perfil del estudiante.
+- **GET /profile** – Obtiene el perfil del estudiante autenticado.
 
 Todas requieren el encabezado `Authorization` con el token JWT.
 
