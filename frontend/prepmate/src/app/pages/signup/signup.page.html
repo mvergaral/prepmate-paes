@@ -8,6 +8,33 @@
 
     <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="space-y-4">
       <ion-item class="rounded-lg dark:bg-slate-700">
+        <ion-label position="floating" class="text-sm">Nombre</ion-label>
+        <ion-input
+          type="text"
+          formControlName="name"
+          class="ion-input-custom w-full text-text-light dark:text-white"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item class="rounded-lg dark:bg-slate-700">
+        <ion-label position="floating" class="text-sm">RUT</ion-label>
+        <ion-input
+          type="text"
+          formControlName="rut"
+          class="ion-input-custom w-full text-text-light dark:text-white"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item class="rounded-lg dark:bg-slate-700">
+        <ion-label position="floating" class="text-sm">Edad</ion-label>
+        <ion-input
+          type="number"
+          formControlName="age"
+          class="ion-input-custom w-full text-text-light dark:text-white"
+        ></ion-input>
+      </ion-item>
+
+      <ion-item class="rounded-lg dark:bg-slate-700">
         <ion-label position="floating" class="text-sm">Correo electrónico</ion-label>
         <ion-input
           type="email"

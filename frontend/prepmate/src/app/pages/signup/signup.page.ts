@@ -20,6 +20,9 @@ export class SignupPage {
 
   constructor(private fb: FormBuilder, private router: Router, private auth: AuthService, private store: AuthStore) {
     this.signupForm = this.fb.group({
+      name: ['', Validators.required],
+      rut: ['', Validators.required],
+      age: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required],
@@ -35,8 +38,8 @@ export class SignupPage {
       return;
     }
 
-    const { email, password, terms } = this.signupForm.value;
-    this.auth.signup({ email, password, terms }).subscribe({
+    const { name, rut, age, email, password, terms } = this.signupForm.value;
+    this.auth.signup({ name, rut, age: Number(age), email, password, terms }).subscribe({
       next: (res) => {
         this.store.setSession(res);
         this.router.navigate(['/profile']);

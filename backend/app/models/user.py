@@ -10,7 +10,10 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    password_hash = db.Column(db.String(128), nullable=False)
+    # Werkzeug 3.x usa scrypt por defecto para generar los hashes, los cuales
+    # superan los 128 caracteres. Aumentamos el tamaño del campo para evitar
+    # errores de truncamiento al registrar usuarios.
+    password_hash = db.Column(db.String(256), nullable=False)
     role = db.Column(db.String(20), nullable=False, default='student')  # 'student' o 'admin'
     is_active = db.Column(db.Boolean, default=True)
 
