@@ -39,28 +39,25 @@ def signup():
     if User.query.filter_by(email=data['email']).first() is not None:
         return jsonify({'message': 'Email already registered'}), 400
 
-    # Crear usuario base con rol student
-    user = User(
-        email=data['email'],
-        role='student'
-    )
-    user.set_password(data['password'])
-    db.session.add(user)
-    db.session.flush()  # Para obtener user.id
-
-    # Crear instancia Student enlazada al User
+    # Crear instancia Student (hereda de User) directamente
     student = Student(
-        id=user.id,  # Hereda el id del User
+        email=data['email'],
+        role='student',
         name=data['name'],
         rut=data['rut'],
         age=data['age'],
         accepted_terms=data.get('terms', False)
     )
+    student.set_password(data['password'])
     db.session.add(student)
     db.session.commit()
 
-    token = create_access_token(identity=str(user.id))
-    return jsonify({'access_token': token, 'user': user_schema.dump(user), 'student': student_schema.dump(student)}), 201
+    token = create_access_token(identity=str(student.id))
+    return jsonify({
+        'access_token': token,
+        'user': user_schema.dump(student),
+        'student': student_schema.dump(student)
+    }), 201
 
 @auth_bp.route('/signup-admin', methods=['POST'])
 def signup_admin():
@@ -72,27 +69,25 @@ def signup_admin():
     if User.query.filter_by(email=data['email']).first() is not None:
         return jsonify({'message': 'Email already registered'}), 400
 
-    user = User(
-        email=data['email'],
-        role='admin'
-    )
-    user.set_password(data['password'])
-    db.session.add(user)
-    db.session.flush()  # Save user and retrieve user.id without committing
-
-    # Crear instancia Admin enlazada al User
+    # Crear instancia Admin directamente
     admin = Admin(
-        id=user.id,  # Hereda el id del User
+        email=data['email'],
+        role='admin',
         name=data['name'],
         rut=data['rut'],
         age=data['age'],
         accepted_terms=data.get('terms', False)
     )
+    admin.set_password(data['password'])
     db.session.add(admin)
     db.session.commit()
 
-    token = create_access_token(identity=str(user.id))
-    return jsonify({'access_token': token, 'user': user_schema.dump(user), 'admin': admin_schema.dump(admin)}), 201
+    token = create_access_token(identity=str(admin.id))
+    return jsonify({
+        'access_token': token,
+        'user': user_schema.dump(admin),
+        'admin': admin_schema.dump(admin)
+    }), 201
 
 @auth_bp.route('/logout', methods=['POST'])
 @jwt_required

@@ -22,7 +22,9 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=120), nullable=False),
     sa.Column('email', sa.String(length=120), nullable=False),
-    sa.Column('password_hash', sa.String(length=128), nullable=False),
+    # El hash generado por Werkzeug puede superar los 128 caracteres,
+    # por lo que ampliamos el tamaño del campo a 256.
+    sa.Column('password_hash', sa.String(length=256), nullable=False),
     sa.Column('rut', sa.String(length=20), nullable=False),
     sa.Column('age', sa.Integer(), nullable=False),
     sa.Column('accepted_terms', sa.Boolean(), nullable=True),
