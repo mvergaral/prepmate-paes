@@ -163,3 +163,6 @@ Para ver la documentación completa de la API, consulta [API_DOCS.md](backend/AP
 Importar este archivo en Postman para ejecutar las peticiones de ejemplo a la API.
 [postman/PrepMatePAES.postman_collection.json](postman/PrepMatePAES.postman_collection.json)
 
+El archivo contiene ejemplos de peticiones a los endpoints de la API, incluyendo autenticación, gestión de usuarios, materias y ejercicios.
+Además, incluye scripts para automatizar la autenticación y el manejo de tokens.
+En caso de ser necesario, puedes modificar las variables de entorno en Postman para adaptarlas a la configuración local.
