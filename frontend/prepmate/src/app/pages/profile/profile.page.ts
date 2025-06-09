@@ -20,8 +20,6 @@ export class ProfilePage implements OnInit {
     private profile: ProfileService
   ) {
     this.profileForm = this.fb.group({
-      nombre: ['', Validators.required],
-      rut: ['', Validators.required],
       colegio: ['', Validators.required],
       comuna: ['', Validators.required],
       region: ['', Validators.required]
@@ -37,11 +35,10 @@ export class ProfilePage implements OnInit {
     }
     this.loading = true;
     this.errorMsg = '';
-    this.profile.createProfile(this.profileForm.value).subscribe({
+    this.profile.updateProfile(this.profileForm.value).subscribe({
       next: () => {
         this.loading = false;
-        // Redirigir o mostrar mensaje de éxito
-        this.router.navigate(['/home']);
+        this.router.navigate(['/profile/view']);
       },
       error: (err) => {
         this.loading = false;

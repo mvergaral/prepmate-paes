@@ -8,18 +8,6 @@
 
     <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="space-y-4">
       <ion-item class="rounded-lg dark:bg-slate-700">
-        <ion-label position="floating" class="text-sm">Nombre</ion-label>
-        <ion-input type="text" formControlName="nombre" class="ion-input-custom w-full text-text-light dark:text-white"></ion-input>
-      </ion-item>
-      <div *ngIf="profileForm.get('nombre')?.invalid && profileForm.get('nombre')?.touched" class="text-xs text-red-500">Campo requerido</div>
-
-      <ion-item class="rounded-lg dark:bg-slate-700">
-        <ion-label position="floating" class="text-sm">RUT</ion-label>
-        <ion-input type="text" formControlName="rut" class="ion-input-custom w-full text-text-light dark:text-white"></ion-input>
-      </ion-item>
-      <div *ngIf="profileForm.get('rut')?.invalid && profileForm.get('rut')?.touched" class="text-xs text-red-500">Campo requerido</div>
-
-      <ion-item class="rounded-lg dark:bg-slate-700">
         <ion-label position="floating" class="text-sm">Colegio</ion-label>
         <ion-input type="text" formControlName="colegio" class="ion-input-custom w-full text-text-light dark:text-white"></ion-input>
       </ion-item>
