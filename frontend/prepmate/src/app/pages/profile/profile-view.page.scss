@@ -1,0 +1,29 @@
+// @import 'tailwindcss/base';
+// @import 'tailwindcss/components';
+// @import 'tailwindcss/utilities';
+
+// // Personalización para modo claro/oscuro y formularios
+// :host {
+//   display: block;
+// }
+
+// .ion-button-custom {
+//   @apply bg-primary text-white rounded-xl px-6 py-3 hover:bg-primary-light disabled:opacity-50;
+// }
+
+// .ion-input-custom {
+//   @apply border border-gray-300 dark:border-slate-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary;
+// }
+
+// .bg-background-light {
+//   background-color: #F8FAFC;
+// }
+// .bg-background-dark {
+//   background-color: #0F172A;
+// }
+// .text-text-light {
+//   color: #1E293B;
+// }
+// .text-text-dark {
+//   color: #F1F5F9;
+// }

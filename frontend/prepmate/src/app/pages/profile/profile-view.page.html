@@ -1,0 +1,62 @@
+<div class="min-h-screen bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark flex flex-col px-6 py-6 justify-center items-center">
+  <div class="flex justify-start w-full max-w-md">
+    <app-logo class="mt-6"></app-logo>
+  </div>
+
+  <div class="w-full max-w-md bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-xl mt-8">
+    <h2 class="text-2xl font-bold text-primary dark:text-primary-light mb-4">Mi Perfil</h2>
+
+    <div *ngIf="!editMode">
+      <div class="space-y-2">
+        <div><span class="font-semibold">Nombre:</span> {{ user?.name }}</div>
+        <div><span class="font-semibold">RUT:</span> {{ user?.rut }}</div>
+        <div><span class="font-semibold">Edad:</span> {{ user?.age }}</div>
+        <div><span class="font-semibold">Colegio:</span> {{ user?.colegio || '-' }}</div>
+        <div><span class="font-semibold">Comuna:</span> {{ user?.comuna || '-' }}</div>
+        <div><span class="font-semibold">Región:</span> {{ user?.region || '-' }}</div>
+      </div>
+      <ion-button expand="block" class="ion-button-custom mt-6" (click)="enableEdit()">Editar</ion-button>
+    </div>
+
+    <form *ngIf="editMode" [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="space-y-4 mt-2">
+      <ion-item class="rounded-lg dark:bg-slate-700">
+        <ion-label position="floating" class="text-sm">Nombre</ion-label>
+        <ion-input type="text" formControlName="name" class="ion-input-custom w-full text-text-light dark:text-white"></ion-input>
+      </ion-item>
+      <ion-item class="rounded-lg dark:bg-slate-700">
+        <ion-label position="floating" class="text-sm">RUT</ion-label>
+        <ion-input type="text" formControlName="rut" class="ion-input-custom w-full text-text-light dark:text-white"></ion-input>
+      </ion-item>
+      <ion-item class="rounded-lg dark:bg-slate-700">
+        <ion-label position="floating" class="text-sm">Edad</ion-label>
+        <ion-input type="number" formControlName="age" class="ion-input-custom w-full text-text-light dark:text-white"></ion-input>
+      </ion-item>
+      <ion-item class="rounded-lg dark:bg-slate-700">
+        <ion-label position="floating" class="text-sm">Colegio</ion-label>
+        <ion-input type="text" formControlName="colegio" class="ion-input-custom w-full text-text-light dark:text-white"></ion-input>
+      </ion-item>
+      <ion-item class="rounded-lg dark:bg-slate-700">
+        <ion-label position="floating" class="text-sm">Comuna</ion-label>
+        <ion-input type="text" formControlName="comuna" class="ion-input-custom w-full text-text-light dark:text-white"></ion-input>
+      </ion-item>
+      <ion-item class="rounded-lg dark:bg-slate-700">
+        <ion-label position="floating" class="text-sm">Región</ion-label>
+        <ion-input type="text" formControlName="region" class="ion-input-custom w-full text-text-light dark:text-white"></ion-input>
+      </ion-item>
+      <div class="flex gap-2 mt-4">
+        <ion-button expand="block" type="submit" [disabled]="profileForm.invalid || loading" class="ion-button-custom">Guardar</ion-button>
+        <ion-button expand="block" fill="outline" type="button" (click)="cancelEdit()" class="ion-button-custom">Cancelar</ion-button>
+      </div>
+    </form>
+
+    <div *ngIf="successMsg" class="text-green-600 dark:text-green-400 text-center mt-4">{{ successMsg }}</div>
+    <div *ngIf="errorMsg" class="text-red-500 text-center mt-4">{{ errorMsg }}</div>
+  </div>
+
+  <button
+    class="mt-6 text-sm underline text-text-light dark:text-text-dark hover:text-primary transition"
+    (click)="toggleDarkMode()"
+  >
+    Cambiar a modo {{ isDark ? 'claro' : 'oscuro' }}
+  </button>
+</div>

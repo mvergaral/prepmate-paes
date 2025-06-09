@@ -6,34 +6,29 @@
   <div class="w-full max-w-md bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-xl space-y-6 mt-8">
     <h2 class="text-2xl font-bold text-primary dark:text-primary-light">Perfil</h2>
 
-    <form class="space-y-4">
-      <ion-item class="rounded-lg dark:bg-slate-700">
-        <ion-label position="floating" class="text-sm">Nombre</ion-label>
-        <ion-input type="text" class="ion-input-custom w-full text-text-light dark:text-white"></ion-input>
-      </ion-item>
-
-      <ion-item class="rounded-lg dark:bg-slate-700">
-        <ion-label position="floating" class="text-sm">Rut</ion-label>
-        <ion-input type="text" class="ion-input-custom w-full text-text-light dark:text-white"></ion-input>
-      </ion-item>
-
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="space-y-4">
       <ion-item class="rounded-lg dark:bg-slate-700">
         <ion-label position="floating" class="text-sm">Colegio</ion-label>
-        <ion-input type="text" class="ion-input-custom w-full text-text-light dark:text-white"></ion-input>
+        <ion-input type="text" formControlName="colegio" class="ion-input-custom w-full text-text-light dark:text-white"></ion-input>
       </ion-item>
+      <div *ngIf="profileForm.get('colegio')?.invalid && profileForm.get('colegio')?.touched" class="text-xs text-red-500">Campo requerido</div>
 
       <ion-item class="rounded-lg dark:bg-slate-700">
         <ion-label position="floating" class="text-sm">Comuna</ion-label>
-        <ion-input type="text" class="ion-input-custom w-full text-text-light dark:text-white"></ion-input>
+        <ion-input type="text" formControlName="comuna" class="ion-input-custom w-full text-text-light dark:text-white"></ion-input>
       </ion-item>
+      <div *ngIf="profileForm.get('comuna')?.invalid && profileForm.get('comuna')?.touched" class="text-xs text-red-500">Campo requerido</div>
 
       <ion-item class="rounded-lg dark:bg-slate-700">
         <ion-label position="floating" class="text-sm">Región</ion-label>
-        <ion-input type="text" class="ion-input-custom w-full text-text-light dark:text-white"></ion-input>
+        <ion-input type="text" formControlName="region" class="ion-input-custom w-full text-text-light dark:text-white"></ion-input>
       </ion-item>
+      <div *ngIf="profileForm.get('region')?.invalid && profileForm.get('region')?.touched" class="text-xs text-red-500">Campo requerido</div>
 
-      <ion-button expand="block" type="submit" class="ion-button-custom mt-4">
-        Confirmar
+      <div *ngIf="errorMsg" class="text-red-500 text-sm text-center">{{ errorMsg }}</div>
+
+      <ion-button expand="block" type="submit" [disabled]="profileForm.invalid || loading" class="ion-button-custom mt-4">
+        {{ loading ? 'Guardando...' : 'Confirmar' }}
       </ion-button>
     </form>
   </div>

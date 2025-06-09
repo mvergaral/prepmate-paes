@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ThemeService } from '../services/theme.service';
 
 @Component({
   selector: 'app-home',
@@ -9,18 +10,12 @@ import { Component } from '@angular/core';
 export class HomePage {
   isDark = false;
 
-  constructor() {
-    this.isDark = document.documentElement.classList.contains('dark');
+  constructor(private theme: ThemeService) {
+    this.isDark = this.theme.isDarkMode();
   }
 
   toggleDarkMode() {
-    this.isDark = !this.isDark;
-    const html = document.documentElement;
-    if (this.isDark) {
-      html.classList.add('dark');
-    } else {
-      html.classList.remove('dark');
-    }
-    localStorage.setItem('theme', this.isDark ? 'dark' : 'light');
+    this.theme.toggleTheme();
+    this.isDark = this.theme.isDarkMode();
   }
 }

@@ -33,22 +33,13 @@ Para ejecutar el backend, sigue los siguientes pasos desde el directorio raíz d
 cd backend
 ```
 
-### 2. Ejecutar el script de configuración
-
-Este script crea el entorno virtual, instala dependencias y configura la estructura del backend:
-
-```bash
-chmod +x setup.sh
-./setup.sh
-```
-
-### 3. Activar el entorno virtual
+### 2. Activar el entorno virtual
 
 ```bash
 source venv/bin/activate
 ```
 
-### 4. Configurar las variables de entorno
+### 3. Configurar las variables de entorno
 
 Edita el archivo `.env` con tus credenciales de PostgreSQL:
 
@@ -58,26 +49,93 @@ FLASK_ENV=development
 FLASK_APP=run.py
 ```
 
-### 5. Crear la base de datos (si aún no existe)
+### 4. Crear la base de datos (si aún no existe)
 
 ```bash
 createdb prepmate
 ```
 
-### 6. Aplicar las migraciones a la base de datos
+### 5. Aplicar las migraciones a la base de datos
 
 ```bash
-flask db migrate -m "Initial migration"
+flask db migrate -m "Mensaje de migración"
 flask db upgrade
 ```
 
-### 7. Ejecutar el servidor Flask
+### 6. Ejecutar el servidor Flask
 
 ```bash
 flask run
 ```
 
 El backend estará corriendo en: [http://localhost:5000](http://localhost:5000)
+
+### 7. Ejecutar los tests y ver cobertura
+
+```bash
+pytest --cov=app backend/tests/
+```
+
+### 8. Poblar la base de datos con datos de prueba
+
+Para generar información de ejemplo puedes ejecutar el script `seed.py` desde la
+carpeta `backend`:
+
+```bash
+python seed.py
+```
+
+Este comando crea usuarios, materias y ejercicios básicos para iniciar el
+desarrollo.
+
+---
+
+## Redis en el Proyecto
+
+El backend utiliza **Redis** como sistema de almacenamiento en memoria para funcionalidades que requieren alta velocidad y persistencia temporal.
+
+
+### Instalación y uso de Redis
+
+1. **Instala Redis en tu sistema:**
+   - Ubuntu/Debian:
+     ```bash
+     sudo apt-get update
+     sudo apt-get install redis-server
+     ```
+   - Mac (Homebrew):
+     ```bash
+     brew install redis
+     ```
+
+2. **Inicia el servicio Redis:**
+   ```bash
+   redis-server
+   ```
+   O en sistemas con systemd:
+   ```bash
+   sudo service redis-server start
+   ```
+
+3. **Verifica que Redis está corriendo:**
+   ```bash
+   redis-cli ping
+   ```
+   Debería responder con: `PONG`
+
+4. **Variables de entorno para Redis:**
+   Puedes personalizar la conexión a Redis agregando estas variables a tu archivo `.env`:
+   ```env
+   REDIS_HOST=localhost
+   REDIS_PORT=6379
+   REDIS_DB=0
+   ```
+   Si no las defines, se usarán los valores por defecto mostrados arriba.
+
+5. **Dependencia Python:**
+   La librería `redis` ya está incluida en `requirements.txt`.
+
+> Si necesitas cambiar la configuración de conexión (host/puerto), edita la línea correspondiente en `app/services/auth_middleware.py`.
 
 ---
 
@@ -95,3 +153,16 @@ El backend estará corriendo en: [http://localhost:5000](http://localhost:5000)
   ```bash
   deactivate
   ```
+
+## 📘 API Reference
+
+Para ver la documentación completa de la API, consulta [API_DOCS.md](backend/API_DOCS.md).
+
+## Postman
+
+Importar este archivo en Postman para ejecutar las peticiones de ejemplo a la API.
+[postman/PrepMatePAES.postman_collection.json](postman/PrepMatePAES.postman_collection.json)
+
+El archivo contiene ejemplos de peticiones a los endpoints de la API, incluyendo autenticación, gestión de usuarios, materias y ejercicios.
+Además, incluye scripts para automatizar la autenticación y el manejo de tokens.
+En caso de ser necesario, puedes modificar las variables de entorno en Postman para adaptarlas a la configuración local.

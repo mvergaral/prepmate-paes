@@ -1,0 +1,254 @@
+{
+  "info": {
+    "name": "PrepMate PAES API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Signup Student",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "url": {"raw": "{{base_url}}/auth/signup", "host": ["{{base_url}}"], "path": ["auth", "signup"]},
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Test\",\n  \"email\": \"student@test.com\",\n  \"password\": \"1234\",\n  \"rut\": \"1-9\",\n  \"age\": 18\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Signup Admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "url": {"raw": "{{base_url}}/auth/signup-admin", "host": ["{{base_url}}"], "path": ["auth", "signup-admin"]},
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Admin\",\n  \"email\": \"admin@test.com\",\n  \"password\": \"1234\",\n  \"rut\": \"3-3\",\n  \"age\": 30\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var data = pm.response.json();",
+                  "pm.collectionVariables.set('token', data.access_token);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "url": {"raw": "{{base_url}}/auth/login", "host": ["{{base_url}}"], "path": ["auth", "login"]},
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"student@test.com\",\n  \"password\": \"1234\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"}
+            ],
+            "url": {"raw": "{{base_url}}/auth/logout", "host": ["{{base_url}}"], "path": ["auth", "logout"]}
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Profile",
+      "item": [
+        {
+          "name": "Create Profile",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "url": {"raw": "{{base_url}}/profile", "host": ["{{base_url}}"], "path": ["profile"]},
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Test\",\n  \"rut\": \"1-9\",\n  \"age\": 18,\n  \"colegio\": \"Colegio X\",\n  \"comuna\": \"Comuna Y\",\n  \"region\": \"Region Z\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "url": {"raw": "{{base_url}}/profile", "host": ["{{base_url}}"], "path": ["profile"]},
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Nuevo Nombre\"\n}"
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Protected",
+      "item": [
+        {
+          "name": "Me",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"}
+            ],
+            "url": {"raw": "{{base_url}}/protected/me", "host": ["{{base_url}}"], "path": ["protected", "me"]}
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Subjects",
+      "item": [
+        {
+          "name": "Create Subject",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "url": {"raw": "{{base_url}}/subjects", "host": ["{{base_url}}"], "path": ["subjects"]},
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Matematica\",\n  \"description\": \"desc\",\n  \"area\": \"Matematicas\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List Subjects",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{base_url}}/subjects", "host": ["{{base_url}}"], "path": ["subjects"]}
+          },
+          "response": []
+        },
+        {
+          "name": "Get Subject",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{base_url}}/subjects/1", "host": ["{{base_url}}"], "path": ["subjects", "1"]}
+          },
+          "response": []
+        },
+        {
+          "name": "Update Subject",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "url": {"raw": "{{base_url}}/subjects/1", "host": ["{{base_url}}"], "path": ["subjects", "1"]},
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Mate\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Subject",
+          "request": {
+            "method": "DELETE",
+            "url": {"raw": "{{base_url}}/subjects/1", "host": ["{{base_url}}"], "path": ["subjects", "1"]}
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Exercises",
+      "item": [
+        {
+          "name": "Create Exercise",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "url": {"raw": "{{base_url}}/exercises", "host": ["{{base_url}}"], "path": ["exercises"]},
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Pregunta 1\",\n  \"description\": \"desc\",\n  \"options\": {\"A\": \"1\", \"B\": \"2\", \"C\": \"3\", \"D\": \"4\"},\n  \"correct_answer\": \"A\",\n  \"subject_id\": 1,\n  \"difficulty\": \"easy\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List Exercises",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{base_url}}/exercises", "host": ["{{base_url}}"], "path": ["exercises"]}
+          },
+          "response": []
+        },
+        {
+          "name": "Get Exercise",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "{{base_url}}/exercises/1", "host": ["{{base_url}}"], "path": ["exercises", "1"]}
+          },
+          "response": []
+        },
+        {
+          "name": "Update Exercise",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "url": {"raw": "{{base_url}}/exercises/1", "host": ["{{base_url}}"], "path": ["exercises", "1"]},
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"difficulty\": \"medium\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Exercise",
+          "request": {
+            "method": "DELETE",
+            "url": {"raw": "{{base_url}}/exercises/1", "host": ["{{base_url}}"], "path": ["exercises", "1"]}
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {"key": "base_url", "value": "http://127.0.0.1:5000"}
+  ]
+}
