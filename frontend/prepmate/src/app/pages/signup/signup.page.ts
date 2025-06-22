@@ -42,7 +42,7 @@ export class SignupPage {
     this.auth.signup({ name, rut, age: Number(age), email, password, terms }).subscribe({
       next: (res) => {
         this.store.setSession(res);
-        this.router.navigate(['/profile']);
+        this.router.navigate(['/subjects']);
       },
       error: (err) => {
         console.error('❌ Error en registro', err);

@@ -29,7 +29,7 @@ export class LoginPage {
     this.auth.login(this.loginForm.value).subscribe({
       next: (res) => {
         this.store.setSession(res);
-        this.router.navigate(['/profile/view']);
+        this.router.navigate(['/subjects']);
       },
       error: (err) => {
         console.error('❌ Error en login', err);
