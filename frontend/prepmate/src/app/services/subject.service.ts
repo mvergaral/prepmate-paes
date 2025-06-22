@@ -12,4 +12,13 @@ export class SubjectService {
   getSubjects(): Observable<any[]> {
     return this.http.get<any[]>(this.baseUrl);
   }
+
+  saveSelectedSubjects(names: string[]) {
+    localStorage.setItem('selectedSubjects', JSON.stringify(names));
+  }
+
+  getSelectedSubjects(): string[] {
+    const data = localStorage.getItem('selectedSubjects');
+    return data ? JSON.parse(data) : [];
+  }
 }

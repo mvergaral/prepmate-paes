@@ -25,14 +25,14 @@ ionic serve
 
 El proyecto utiliza **Ionic** junto a **Tailwind CSS**. Para aplicar utilidades
 de Tailwind sobre componentes `ion-*` se crearon clases globales definidas en
-`src/global.scss`. Por ejemplo `ion-item-custom`, `ion-input-custom` e
-`ion-button-custom` permiten replicar los estilos definidos en Figma y mantener
-compatibilidad con el modo oscuro. Estas reglas aprovechan el selector
-`::part(native)` de Ionic para que los estilos se apliquen correctamente sobre
-el elemento interno del componente. Revisa dicho archivo para añadir nuevas
-utilidades y aplícalas como clases en tus vistas. Las vistas de autenticación
-(login y registro) usan estas utilidades dentro de un contenedor `w-96` para
-igualar la maqueta de referencia.
+`src/global.scss`. Por ejemplo `ion-item-custom`, `ion-input-custom`,
+`ion-checkbox-custom` e `ion-button-custom` permiten replicar los estilos
+definidos en Figma y mantener compatibilidad con el modo oscuro. Estas reglas
+aprovechan el selector `::part(native)` de Ionic para que los estilos se apliquen
+correctamente sobre el elemento interno del componente. Revisa dicho archivo
+para añadir nuevas utilidades y aplícalas como clases en tus vistas. Las vistas
+de autenticación y la página de selección de materias usan estas utilidades
+dentro de un contenedor `w-96` para igualar la maqueta de referencia.
 
 ### Modo claro/oscuro
 

@@ -13,10 +13,16 @@ export class SubjectSelectPage implements OnInit {
   constructor(private subjectService: SubjectService, private router: Router) {}
 
   ngOnInit() {
-    this.subjectService.getSubjects().subscribe(res => (this.subjects = (res as any).data || res));
+    this.subjectService.getSubjects().subscribe(res => {
+      const arr = (res as any).data || res;
+      this.subjects = arr.map((s: any) => ({ ...s, selected: false }));
+    });
   }
 
-  open(subject: any) {
-    this.router.navigate(['/exercise', subject.name]);
+  confirmSelection() {
+    const selected = this.subjects.filter(s => s.selected).map(s => s.name);
+    if (!selected.length) { return; }
+    this.subjectService.saveSelectedSubjects(selected);
+    this.router.navigate(['/exercise', selected[0]]);
   }
 }
