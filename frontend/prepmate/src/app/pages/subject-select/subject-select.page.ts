@@ -5,7 +5,8 @@ import { SubjectService } from '../../services/subject.service';
 @Component({
   selector: 'app-subject-select',
   templateUrl: './subject-select.page.html',
-  styleUrls: ['./subject-select.page.scss']
+  styleUrls: ['./subject-select.page.scss'],
+  standalone: false
 })
 export class SubjectSelectPage implements OnInit {
   subjects: any[] = [];

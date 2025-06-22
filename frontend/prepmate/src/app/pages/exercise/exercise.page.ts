@@ -7,7 +7,8 @@ import { AuthStore } from '../../store/auth.store';
 @Component({
   selector: 'app-exercise',
   templateUrl: './exercise.page.html',
-  styleUrls: ['./exercise.page.scss']
+  styleUrls: ['./exercise.page.scss'],
+  standalone: false
 })
 export class ExercisePage implements OnInit {
   materia = '';
