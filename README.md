@@ -77,6 +77,12 @@ FLASK_APP=run.py
 createdb prepmate
 ```
 
+### Modelos principales
+
+El proyecto define los modelos `User`, `Subject`, `Exercise` y `Assignment`.
+`Subject` representa cada materia disponible, mientras que `Assignment` se usa
+para registrar las respuestas de los usuarios a los ejercicios.
+
 ### 5. Aplicar las migraciones a la base de datos
 
 ```bash
