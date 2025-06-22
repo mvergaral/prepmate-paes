@@ -15,3 +15,15 @@ class Exercise(db.Model):
 
     subject_id = db.Column(db.Integer, db.ForeignKey('subjects.id'), nullable=False)
     subject = db.relationship('Subject', back_populates='exercises')
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'description': self.description,
+            'options': self.options,
+            'correct_answer': self.correct_answer,
+            'difficulty': self.difficulty,
+            'tags': self.tags,
+            'subject_id': self.subject_id,
+        }

@@ -188,3 +188,14 @@ Importar este archivo en Postman para ejecutar las peticiones de ejemplo a la AP
 El archivo contiene ejemplos de peticiones a los endpoints de la API, incluyendo autenticación, gestión de usuarios, materias y ejercicios.
 Además, incluye scripts para automatizar la autenticación y el manejo de tokens.
 En caso de ser necesario, puedes modificar las variables de entorno en Postman para adaptarlas a la configuración local.
+
+### Endpoints de ejercicios
+
+El backend expone dos rutas sencillas para integrar el flujo de resolución de problemas:
+
+```
+GET /api/exercises?materia=<nombre>
+POST /api/assignments
+```
+
+La primera devuelve hasta 10 ejercicios filtrados por el nombre de la materia. La segunda registra la respuesta de un usuario enviando `user_id`, `exercise_id`, `respuesta_entregada` y `correcta` en el cuerpo de la solicitud.

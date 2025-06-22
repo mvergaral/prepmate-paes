@@ -1,0 +1,13 @@
+<div class="min-h-screen bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark flex flex-col items-center px-3 py-16 gap-10">
+  <app-logo></app-logo>
+  <div class="w-96 max-w-full bg-white dark:bg-slate-800 px-5 py-4 rounded-2xl shadow-xl">
+    <h2 class="text-2xl font-bold text-primary mb-6">Elige una materia</h2>
+    <ul class="space-y-3">
+      <li *ngFor="let subject of subjects">
+        <ion-button expand="block" class="ion-button-custom" (click)="open(subject)">
+          {{ subject.name }}
+        </ion-button>
+      </li>
+    </ul>
+  </div>
+</div>
