@@ -1,0 +1,7 @@
+:host {
+  display: block;
+}
+
+ul {
+  @apply md:flex md:relative md:top-auto md:left-auto;
+}
