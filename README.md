@@ -34,15 +34,6 @@ para añadir nuevas utilidades y aplícalas como clases en tus vistas. Las vista
 de autenticación y la página de selección de materias usan estas utilidades
 dentro de un contenedor `w-96` para igualar la maqueta de referencia.
 
-### Modo claro/oscuro
-
-El `ThemeService` gestiona la clase `dark` en el elemento `<html>` para
-habilitar el tema oscuro. `src/global.scss` importa
-`@ionic/angular/css/palettes/dark.class.css` de forma que los componentes de
-Ionic respondan a esta misma clase y mantengan coherencia con Tailwind.
-Puedes alternar el tema llamando a `themeService.toggleTheme()` como se muestra
-en `home.page.ts`.
-
 ---
 
 ## Backend
@@ -122,42 +113,51 @@ desarrollo.
 
 El backend utiliza **Redis** como sistema de almacenamiento en memoria para funcionalidades que requieren alta velocidad y persistencia temporal.
 
-
 ### Instalación y uso de Redis
 
 1. **Instala Redis en tu sistema:**
    - Ubuntu/Debian:
+
      ```bash
      sudo apt-get update
      sudo apt-get install redis-server
      ```
+
    - Mac (Homebrew):
+
      ```bash
      brew install redis
      ```
 
 2. **Inicia el servicio Redis:**
+
    ```bash
    redis-server
    ```
+
    O en sistemas con systemd:
+
    ```bash
    sudo service redis-server start
    ```
 
 3. **Verifica que Redis está corriendo:**
+
    ```bash
    redis-cli ping
    ```
+
    Debería responder con: `PONG`
 
 4. **Variables de entorno para Redis:**
    Puedes personalizar la conexión a Redis agregando estas variables a tu archivo `.env`:
+
    ```env
    REDIS_HOST=localhost
    REDIS_PORT=6379
    REDIS_DB=0
    ```
+
    Si no las defines, se usarán los valores por defecto mostrados arriba.
 
 5. **Dependencia Python:**
@@ -194,10 +194,3 @@ Importar este archivo en Postman para ejecutar las peticiones de ejemplo a la AP
 El archivo contiene ejemplos de peticiones a los endpoints de la API, incluyendo autenticación, gestión de usuarios, materias y ejercicios.
 Además, incluye scripts para automatizar la autenticación y el manejo de tokens.
 En caso de ser necesario, puedes modificar las variables de entorno en Postman para adaptarlas a la configuración local.
-
-### Endpoints adicionales
-
-- `GET /api/progress/<user_id>`: devuelve el conteo de respuestas correctas por materia para el usuario indicado.
-- `GET /api/admin/users`: lista todos los usuarios (requiere token de administrador).
-- `POST /api/admin/users/<id>/deactivate`: desactiva una cuenta de usuario.
-- `GET /api/notifications`: retorna un mensaje motivacional si el usuario lleva más de una semana sin responder ejercicios.

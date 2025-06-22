@@ -13,7 +13,6 @@
       <ion-item class="ion-item-custom" *ngFor="let subject of subjects">
         <ion-checkbox
           slot="start"
-          aria-label="Seleccionar {{ subject.name }}"
           [(ngModel)]="subject.selected"
           class="ion-checkbox-custom mr-2"
         ></ion-checkbox>
