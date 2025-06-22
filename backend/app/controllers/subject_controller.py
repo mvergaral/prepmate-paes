@@ -2,12 +2,15 @@ from flask import Blueprint, request, jsonify
 from .. import db
 from ..models import Subject
 from ..schemas import SubjectSchema
+from ..services.auth_middleware import jwt_required, admin_required
 
 subject_bp = Blueprint('subject', __name__)
 subject_schema = SubjectSchema()
 subjects_schema = SubjectSchema(many=True)
 
 @subject_bp.route('/subjects', methods=['POST'])
+@jwt_required
+@admin_required
 def create_subject():
     data = request.get_json() or {}
     try:
@@ -29,6 +32,8 @@ def get_subject(subject_id):
     return jsonify({'status': 'success', 'data': subject_schema.dump(subject)}), 200
 
 @subject_bp.route('/subjects/<int:subject_id>', methods=['PUT'])
+@jwt_required
+@admin_required
 def update_subject(subject_id):
     subject = Subject.query.get_or_404(subject_id)
     data = request.get_json() or {}
@@ -40,6 +45,8 @@ def update_subject(subject_id):
     return jsonify({'status': 'success', 'data': subject_schema.dump(subject)}), 200
 
 @subject_bp.route('/subjects/<int:subject_id>', methods=['DELETE'])
+@jwt_required
+@admin_required
 def delete_subject(subject_id):
     subject = Subject.query.get_or_404(subject_id)
     db.session.delete(subject)

@@ -8,6 +8,7 @@
       <ion-item class="ion-item-custom">
         <ion-label position="floating" class="text-sm">Correo electrónico</ion-label>
         <ion-input
+          aria-label="Correo electrónico"
           type="email"
           formControlName="email"
           class="ion-input-custom w-full text-text-light dark:text-white"
@@ -17,6 +18,7 @@
       <ion-item class="ion-item-custom">
         <ion-label position="floating" class="text-sm">Contraseña</ion-label>
         <ion-input
+          aria-label="Contraseña"
           type="password"
           formControlName="password"
           class="ion-input-custom w-full text-text-light dark:text-white"
@@ -26,6 +28,7 @@
       <ion-button
         expand="block"
         type="submit"
+        aria-label="Iniciar sesión"
         [disabled]="loginForm.invalid"
         class="ion-button-custom mt-4"
       >

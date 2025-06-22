@@ -59,7 +59,7 @@
 }
 
 .ion-input-custom::part(native) {
-  @apply px-3 py-2 text-text-light dark:text-white;
+  @apply px-3 py-2 text-text-light dark:text-white placeholder-text-muted dark:placeholder-gray-400;
 }
 
 .ion-button-custom::part(native) {
@@ -74,11 +74,11 @@
  * Custom wrapper for ion-item to allow Tailwind utilities on the native part
  */
 .ion-item-custom::part(native) {
-  @apply rounded-lg bg-slate-50 dark:bg-slate-900 outline outline-1 outline-gray-200 dark:outline-slate-600;
+  @apply rounded-lg bg-white dark:bg-slate-900 text-text-light dark:text-white outline outline-1 outline-gray-200 dark:outline-slate-600;
 }
 
 .ion-checkbox-custom::part(container) {
-  @apply w-4 h-4 border border-slate-100 dark:border-slate-100 bg-slate-900 dark:bg-slate-900 rounded;
+  @apply w-4 h-4 border border-slate-100 dark:border-slate-100 bg-white dark:bg-slate-900 rounded;
 }
 
 .ion-checkbox-custom::part(mark) {

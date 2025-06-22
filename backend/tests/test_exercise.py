@@ -1,11 +1,15 @@
-from .conftest import BaseTestCase
+from .conftest import BaseTestCase, UserFactory
 from flask import json
+from flask_jwt_extended import create_access_token
 
 class TestExerciseEndpoints(BaseTestCase):
     def test_exercise_crud(self):
         with self.app.app_context():
+            admin, _ = UserFactory.create_admin()
+            token = create_access_token(identity=str(admin.id))
+
             # create subject first
-            s_res = self.client.post('/subjects', json={"name": "Ciencias", "description": "desc", "area": "Science"})
+            s_res = self.client.post('/subjects', json={"name": "Ciencias", "description": "desc", "area": "Science"}, headers={'Authorization': f'Bearer {token}'})
             subject_id = json.loads(s_res.data)['data']['id']
 
             payload = {
@@ -17,7 +21,7 @@ class TestExerciseEndpoints(BaseTestCase):
                 "difficulty": "easy",
                 "tags": "tag1"
             }
-            res = self.client.post('/exercises', json=payload)
+            res = self.client.post('/exercises', json=payload, headers={'Authorization': f'Bearer {token}'})
             self.assertEqual(res.status_code, 201)
             data = json.loads(res.data)
             exercise_id = data['data']['id']
@@ -26,11 +30,11 @@ class TestExerciseEndpoints(BaseTestCase):
             self.assertEqual(res.status_code, 200)
             self.assertEqual(len(json.loads(res.data)['data']), 1)
 
-            res = self.client.put(f'/exercises/{exercise_id}', json={"difficulty": "medium"})
+            res = self.client.put(f'/exercises/{exercise_id}', json={"difficulty": "medium"}, headers={'Authorization': f'Bearer {token}'})
             self.assertEqual(res.status_code, 200)
             self.assertEqual(json.loads(res.data)['data']['difficulty'], 'medium')
 
-            res = self.client.delete(f'/exercises/{exercise_id}')
+            res = self.client.delete(f'/exercises/{exercise_id}', headers={'Authorization': f'Bearer {token}'})
             self.assertEqual(res.status_code, 200)
             res = self.client.get(f'/exercises/{exercise_id}')
             self.assertEqual(res.status_code, 404)

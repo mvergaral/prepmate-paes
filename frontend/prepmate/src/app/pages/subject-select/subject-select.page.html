@@ -11,7 +11,12 @@
   <ion-card class="ion-card-custom w-96 max-w-full">
     <div class="px-4 py-4 space-y-4">
       <ion-item class="ion-item-custom" *ngFor="let subject of subjects">
-        <ion-checkbox slot="start" [(ngModel)]="subject.selected" class="ion-checkbox-custom mr-2"></ion-checkbox>
+        <ion-checkbox
+          slot="start"
+          aria-label="Seleccionar {{ subject.name }}"
+          [(ngModel)]="subject.selected"
+          class="ion-checkbox-custom mr-2"
+        ></ion-checkbox>
         <ion-label class="font-semibold capitalize">{{ subject.name }}</ion-label>
       </ion-item>
       <ion-button expand="block" class="ion-button-custom mt-4" (click)="confirmSelection()">Confirmar</ion-button>

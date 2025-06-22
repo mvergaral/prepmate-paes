@@ -194,3 +194,10 @@ Importar este archivo en Postman para ejecutar las peticiones de ejemplo a la AP
 El archivo contiene ejemplos de peticiones a los endpoints de la API, incluyendo autenticación, gestión de usuarios, materias y ejercicios.
 Además, incluye scripts para automatizar la autenticación y el manejo de tokens.
 En caso de ser necesario, puedes modificar las variables de entorno en Postman para adaptarlas a la configuración local.
+
+### Endpoints adicionales
+
+- `GET /api/progress/<user_id>`: devuelve el conteo de respuestas correctas por materia para el usuario indicado.
+- `GET /api/admin/users`: lista todos los usuarios (requiere token de administrador).
+- `POST /api/admin/users/<id>/deactivate`: desactiva una cuenta de usuario.
+- `GET /api/notifications`: retorna un mensaje motivacional si el usuario lleva más de una semana sin responder ejercicios.
