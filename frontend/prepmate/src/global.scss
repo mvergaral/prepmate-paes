@@ -38,22 +38,42 @@
  */
 
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import "@ionic/angular/css/palettes/dark.system.css";
+// Use the class-based palette so Tailwind and Ionic share
+// the same `.dark` trigger controlled by ThemeService
+@import "@ionic/angular/css/palettes/dark.class.css";
+/* @import "@ionic/angular/css/palettes/dark.system.css"; */
 
 /*
  * Utility classes to align Ionic components with Tailwind design tokens
  */
 
-// .ion-input-custom {
-//   @apply border border-gray-300 dark:border-slate-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary;
-// }
 
-// .ion-button-custom {
-//   @apply bg-primary text-white rounded-xl px-6 py-3 hover:bg-primary-light disabled:opacity-50;
-// }
+/*
+ * These utility classes let Ionic components mimic the Tailwind
+ * styling used on native HTML elements. Apply them directly on
+ * `ion-input`, `ion-button` or `ion-item` elements.
+ */
 
-// .ion-card-custom {
-//   @apply bg-white dark:bg-slate-800 text-text-light dark:text-text-dark shadow-xl rounded-2xl;
-// }
+.ion-input-custom {
+  @apply block w-full border border-gray-300 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary;
+}
+
+.ion-input-custom::part(native) {
+  @apply px-3 py-2 text-text-light dark:text-white;
+}
+
+.ion-button-custom::part(native) {
+  @apply bg-primary text-white rounded-xl px-6 py-3 hover:bg-primary-light disabled:opacity-50;
+}
+
+.ion-card-custom {
+  @apply bg-white dark:bg-slate-800 text-text-light dark:text-text-dark shadow-xl rounded-2xl;
+}
+
+/*
+ * Custom wrapper for ion-item to allow Tailwind utilities on the native part
+ */
+.ion-item-custom::part(native) {
+  @apply rounded-lg bg-white dark:bg-slate-700;
+}
 

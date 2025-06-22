@@ -7,7 +7,7 @@
     <h1 class="text-2xl font-bold text-primary mb-6">Iniciar sesión</h1>
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-4">
-      <ion-item class="rounded-lg dark:bg-slate-700">
+      <ion-item class="ion-item-custom">
         <ion-label position="floating" class="text-sm">Correo electrónico</ion-label>
         <ion-input
           type="email"
@@ -16,7 +16,7 @@
         ></ion-input>
       </ion-item>
 
-      <ion-item class="rounded-lg dark:bg-slate-700">
+      <ion-item class="ion-item-custom">
         <ion-label position="floating" class="text-sm">Contraseña</ion-label>
         <ion-input
           type="password"

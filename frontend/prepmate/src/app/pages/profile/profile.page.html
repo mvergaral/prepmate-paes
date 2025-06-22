@@ -7,19 +7,19 @@
     <h2 class="text-2xl font-bold text-primary dark:text-primary-light">Perfil</h2>
 
     <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="space-y-4">
-      <ion-item class="rounded-lg dark:bg-slate-700">
+      <ion-item class="ion-item-custom">
         <ion-label position="floating" class="text-sm">Colegio</ion-label>
         <ion-input type="text" formControlName="colegio" class="ion-input-custom w-full text-text-light dark:text-white"></ion-input>
       </ion-item>
       <div *ngIf="profileForm.get('colegio')?.invalid && profileForm.get('colegio')?.touched" class="text-xs text-red-500">Campo requerido</div>
 
-      <ion-item class="rounded-lg dark:bg-slate-700">
+      <ion-item class="ion-item-custom">
         <ion-label position="floating" class="text-sm">Comuna</ion-label>
         <ion-input type="text" formControlName="comuna" class="ion-input-custom w-full text-text-light dark:text-white"></ion-input>
       </ion-item>
       <div *ngIf="profileForm.get('comuna')?.invalid && profileForm.get('comuna')?.touched" class="text-xs text-red-500">Campo requerido</div>
 
-      <ion-item class="rounded-lg dark:bg-slate-700">
+      <ion-item class="ion-item-custom">
         <ion-label position="floating" class="text-sm">Región</ion-label>
         <ion-input type="text" formControlName="region" class="ion-input-custom w-full text-text-light dark:text-white"></ion-input>
       </ion-item>

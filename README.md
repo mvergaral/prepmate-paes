@@ -21,6 +21,26 @@ Luego, para ejecutar el frontend, ejecutamos el siguiente comando:
 ionic serve
 ```
 
+### Estilos con Ionic y Tailwind
+
+El proyecto utiliza **Ionic** junto a **Tailwind CSS**. Para aplicar utilidades
+de Tailwind sobre componentes `ion-*` se crearon clases globales definidas en
+`src/global.scss`. Por ejemplo `ion-item-custom`, `ion-input-custom` e
+`ion-button-custom` permiten aplicar bordes, colores y compatibilidad con modo
+oscuro en formularios. Estas reglas aprovechan el selector `::part(native)` de
+Ionic para que los estilos se apliquen correctamente sobre el elemento interno
+del componente. Revisa dicho archivo para añadir nuevas utilidades y
+aplícalas como clases en tus vistas.
+
+### Modo claro/oscuro
+
+El `ThemeService` gestiona la clase `dark` en el elemento `<html>` para
+habilitar el tema oscuro. `src/global.scss` importa
+`@ionic/angular/css/palettes/dark.class.css` de forma que los componentes de
+Ionic respondan a esta misma clase y mantengan coherencia con Tailwind.
+Puedes alternar el tema llamando a `themeService.toggleTheme()` como se muestra
+en `home.page.ts`.
+
 ---
 
 ## Backend
