@@ -1,0 +1,29 @@
+<nav class="bg-white dark:bg-slate-800 shadow">
+  <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+    <app-logo></app-logo>
+    <button (click)="toggleMenu()" class="md:hidden text-2xl">
+      <ion-icon [name]="menuOpen ? 'close' : 'menu'"></ion-icon>
+    </button>
+    <ul
+      [class.hidden]="!menuOpen"
+      class="absolute left-0 top-full w-full bg-white dark:bg-slate-800 md:static md:flex md:gap-6 md:w-auto md:items-center md:space-x-6 md:mt-0 shadow md:shadow-none"
+    >
+      <li><a routerLink="/home" class="block px-4 py-2 hover:underline">Inicio</a></li>
+      <li *ngIf="token$ | async">
+        <a routerLink="/subjects" class="block px-4 py-2 hover:underline">Materias</a>
+      </li>
+      <li *ngIf="token$ | async">
+        <a routerLink="/profile/view" class="block px-4 py-2 hover:underline">Perfil</a>
+      </li>
+      <li *ngIf="(token$ | async) === null">
+        <a routerLink="/login" class="block px-4 py-2 hover:underline">Entrar</a>
+      </li>
+      <li *ngIf="(token$ | async) === null">
+        <a routerLink="/signup" class="block px-4 py-2 hover:underline">Registro</a>
+      </li>
+      <li *ngIf="token$ | async">
+        <button (click)="logout()" class="w-full text-left px-4 py-2 hover:underline">Salir</button>
+      </li>
+    </ul>
+  </div>
+</nav>

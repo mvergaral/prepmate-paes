@@ -3,3 +3,4 @@ from .student import Student
 from .user import User
 from .subject import Subject
 from .exercise import Exercise
+from .assignment import Assignment

@@ -2,12 +2,15 @@ from flask import Blueprint, request, jsonify
 from .. import db
 from ..models import Exercise, Subject
 from ..schemas import ExerciseSchema
+from ..services.auth_middleware import jwt_required, admin_required
 
 exercise_bp = Blueprint('exercise', __name__)
 exercise_schema = ExerciseSchema()
 exercises_schema = ExerciseSchema(many=True)
 
 @exercise_bp.route('/exercises', methods=['POST'])
+@jwt_required
+@admin_required
 def create_exercise():
     data = request.get_json() or {}
     try:
@@ -29,6 +32,8 @@ def get_exercise(exercise_id):
     return jsonify({'status': 'success', 'data': exercise_schema.dump(exercise)}), 200
 
 @exercise_bp.route('/exercises/<int:exercise_id>', methods=['PUT'])
+@jwt_required
+@admin_required
 def update_exercise(exercise_id):
     exercise = Exercise.query.get_or_404(exercise_id)
     data = request.get_json() or {}
@@ -40,6 +45,8 @@ def update_exercise(exercise_id):
     return jsonify({'status': 'success', 'data': exercise_schema.dump(exercise)}), 200
 
 @exercise_bp.route('/exercises/<int:exercise_id>', methods=['DELETE'])
+@jwt_required
+@admin_required
 def delete_exercise(exercise_id):
     exercise = Exercise.query.get_or_404(exercise_id)
     db.session.delete(exercise)

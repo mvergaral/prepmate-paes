@@ -77,3 +77,13 @@ def jwt_required(fn):
             current_app.logger.error('Unhandled exception during authentication: %s', str(e))
             return jsonify({'message': 'Error de autenticación'}), 401
     return wrapper
+
+
+def admin_required(fn):
+    @wraps(fn)
+    def wrapper(*args, **kwargs):
+        user = getattr(g, 'user', None)
+        if not user or user.role != 'admin':
+            return jsonify({'message': 'Acceso de administrador requerido'}), 403
+        return fn(*args, **kwargs)
+    return wrapper

@@ -21,6 +21,19 @@ Luego, para ejecutar el frontend, ejecutamos el siguiente comando:
 ionic serve
 ```
 
+### Estilos con Ionic y Tailwind
+
+El proyecto utiliza **Ionic** junto a **Tailwind CSS**. Para aplicar utilidades
+de Tailwind sobre componentes `ion-*` se crearon clases globales definidas en
+`src/global.scss`. Por ejemplo `ion-item-custom`, `ion-input-custom`,
+`ion-checkbox-custom` e `ion-button-custom` permiten replicar los estilos
+definidos en Figma y mantener compatibilidad con el modo oscuro. Estas reglas
+aprovechan el selector `::part(native)` de Ionic para que los estilos se apliquen
+correctamente sobre el elemento interno del componente. Revisa dicho archivo
+para añadir nuevas utilidades y aplícalas como clases en tus vistas. Las vistas
+de autenticación y la página de selección de materias usan estas utilidades
+dentro de un contenedor `w-96` para igualar la maqueta de referencia.
+
 ---
 
 ## Backend
@@ -54,6 +67,12 @@ FLASK_APP=run.py
 ```bash
 createdb prepmate
 ```
+
+### Modelos principales
+
+El proyecto define los modelos `User`, `Subject`, `Exercise` y `Assignment`.
+`Subject` representa cada materia disponible, mientras que `Assignment` se usa
+para registrar las respuestas de los usuarios a los ejercicios.
 
 ### 5. Aplicar las migraciones a la base de datos
 
@@ -94,42 +113,51 @@ desarrollo.
 
 El backend utiliza **Redis** como sistema de almacenamiento en memoria para funcionalidades que requieren alta velocidad y persistencia temporal.
 
-
 ### Instalación y uso de Redis
 
 1. **Instala Redis en tu sistema:**
    - Ubuntu/Debian:
+
      ```bash
      sudo apt-get update
      sudo apt-get install redis-server
      ```
+
    - Mac (Homebrew):
+
      ```bash
      brew install redis
      ```
 
 2. **Inicia el servicio Redis:**
+
    ```bash
    redis-server
    ```
+
    O en sistemas con systemd:
+
    ```bash
    sudo service redis-server start
    ```
 
 3. **Verifica que Redis está corriendo:**
+
    ```bash
    redis-cli ping
    ```
+
    Debería responder con: `PONG`
 
 4. **Variables de entorno para Redis:**
    Puedes personalizar la conexión a Redis agregando estas variables a tu archivo `.env`:
+
    ```env
    REDIS_HOST=localhost
    REDIS_PORT=6379
    REDIS_DB=0
    ```
+
    Si no las defines, se usarán los valores por defecto mostrados arriba.
 
 5. **Dependencia Python:**

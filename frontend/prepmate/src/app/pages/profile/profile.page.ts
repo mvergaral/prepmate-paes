@@ -26,6 +26,8 @@ export class ProfilePage implements OnInit {
     });
   }
 
+  // Inicialmente no se requiere lógica al cargar la vista
+  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   ngOnInit(): void {}
 
   onSubmit() {

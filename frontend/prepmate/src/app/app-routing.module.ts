@@ -28,6 +28,16 @@ const routes: Routes = [
     path: 'profile',
     loadChildren: () => import('./pages/profile/profile.module').then( m => m.ProfilePageModule),
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'subjects',
+    loadChildren: () => import('./pages/subject-select/subject-select.module').then(m => m.SubjectSelectPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'exercise/:materia',
+    loadChildren: () => import('./pages/exercise/exercise.module').then(m => m.ExercisePageModule),
+    canActivate: [AuthGuard]
   }
 ];
 
