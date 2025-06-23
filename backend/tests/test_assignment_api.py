@@ -34,3 +34,9 @@ class TestAssignmentAPI(BaseTestCase):
             }
             res = self.client.post('/api/assignments', json=assign_payload)
             self.assertEqual(res.status_code, 201)
+
+            res = self.client.get(f'/api/assignments?user_id={student.id}&subject_id={subject_id}')
+            self.assertEqual(res.status_code, 200)
+            data = json.loads(res.data)
+            self.assertEqual(len(data), 1)
+            self.assertEqual(data[0]['exercise_id'], exercise_id)

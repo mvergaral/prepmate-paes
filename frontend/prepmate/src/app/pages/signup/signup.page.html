@@ -13,6 +13,7 @@
           class="ion-input-custom w-full text-text-light dark:text-white"
         ></ion-input>
       </ion-item>
+      <div *ngIf="signupForm.get('name')?.invalid && signupForm.get('name')?.touched" class="text-xs text-red-500">Campo requerido</div>
 
       <ion-item class="ion-item-custom">
         <ion-label position="floating" class="text-sm">RUT</ion-label>
@@ -22,6 +23,7 @@
           class="ion-input-custom w-full text-text-light dark:text-white"
         ></ion-input>
       </ion-item>
+      <div *ngIf="signupForm.get('rut')?.invalid && signupForm.get('rut')?.touched" class="text-xs text-red-500">Campo requerido</div>
 
       <ion-item class="ion-item-custom">
         <ion-label position="floating" class="text-sm">Edad</ion-label>
@@ -31,6 +33,7 @@
           class="ion-input-custom w-full text-text-light dark:text-white"
         ></ion-input>
       </ion-item>
+      <div *ngIf="signupForm.get('age')?.invalid && signupForm.get('age')?.touched" class="text-xs text-red-500">Campo requerido</div>
 
       <ion-item class="ion-item-custom">
         <ion-label position="floating" class="text-sm">Correo electrónico</ion-label>
@@ -40,6 +43,7 @@
           class="ion-input-custom w-full text-text-light dark:text-white"
         ></ion-input>
       </ion-item>
+      <div *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched" class="text-xs text-red-500">Email inválido</div>
 
       <ion-item class="ion-item-custom">
         <ion-label position="floating" class="text-sm">Contraseña</ion-label>
@@ -49,6 +53,7 @@
           class="ion-input-custom w-full text-text-light dark:text-white"
         ></ion-input>
       </ion-item>
+      <div *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched" class="text-xs text-red-500">Campo requerido</div>
 
       <ion-item class="ion-item-custom">
         <ion-label position="floating" class="text-sm">Confirmar contraseña</ion-label>
@@ -58,6 +63,7 @@
           class="ion-input-custom w-full text-text-light dark:text-white"
         ></ion-input>
       </ion-item>
+      <div *ngIf="signupForm.hasError('passwordMismatch') && signupForm.get('confirmPassword')?.touched" class="text-xs text-red-500">Las contraseñas no coinciden</div>
 
       <div class="flex items-center gap-2 text-sm text-text-muted">
         <input

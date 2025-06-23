@@ -12,16 +12,20 @@
       <div *ngIf="profileForm.get('colegio')?.invalid && profileForm.get('colegio')?.touched" class="text-xs text-red-500">Campo requerido</div>
 
       <ion-item class="ion-item-custom">
-        <ion-label position="floating" class="text-sm">Comuna</ion-label>
-        <ion-input type="text" formControlName="comuna" class="ion-input-custom w-full text-text-light dark:text-white"></ion-input>
-      </ion-item>
-      <div *ngIf="profileForm.get('comuna')?.invalid && profileForm.get('comuna')?.touched" class="text-xs text-red-500">Campo requerido</div>
-
-      <ion-item class="ion-item-custom">
         <ion-label position="floating" class="text-sm">Región</ion-label>
-        <ion-input type="text" formControlName="region" class="ion-input-custom w-full text-text-light dark:text-white"></ion-input>
+        <ion-select formControlName="region" interface="action-sheet" class="w-full">
+          <ion-select-option *ngFor="let r of regions" [value]="r.name">{{ r.name }}</ion-select-option>
+        </ion-select>
       </ion-item>
       <div *ngIf="profileForm.get('region')?.invalid && profileForm.get('region')?.touched" class="text-xs text-red-500">Campo requerido</div>
+
+      <ion-item class="ion-item-custom">
+        <ion-label position="floating" class="text-sm">Comuna</ion-label>
+        <ion-select formControlName="comuna" interface="action-sheet" class="w-full">
+          <ion-select-option *ngFor="let c of communes" [value]="c">{{ c }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <div *ngIf="profileForm.get('comuna')?.invalid && profileForm.get('comuna')?.touched" class="text-xs text-red-500">Campo requerido</div>
 
       <div *ngIf="errorMsg" class="text-red-500 text-sm text-center">{{ errorMsg }}</div>
 

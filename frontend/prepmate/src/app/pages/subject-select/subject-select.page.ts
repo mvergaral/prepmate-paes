@@ -24,6 +24,6 @@ export class SubjectSelectPage implements OnInit {
     const selected = this.subjects.filter(s => s.selected).map(s => s.name);
     if (!selected.length) { return; }
     this.subjectService.saveSelectedSubjects(selected);
-    this.router.navigate(['/exercise', selected[0]]);
+    this.router.navigate(['/session', selected[0]]);
   }
 }

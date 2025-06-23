@@ -38,6 +38,11 @@ const routes: Routes = [
     path: 'exercise/:materia',
     loadChildren: () => import('./pages/exercise/exercise.module').then(m => m.ExercisePageModule),
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'session/:materia',
+    loadChildren: () => import('./pages/session/session.module').then(m => m.SessionPageModule),
+    canActivate: [AuthGuard]
   }
 ];
 

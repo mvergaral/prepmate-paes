@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProfileService } from '../../services/profile.service';
 import { ThemeService } from '../../services/theme.service';
+import { REGIONS, Region } from '../../data/regions';
 
 @Component({
   selector: 'app-profile-view',
@@ -17,6 +18,8 @@ export class ProfileViewPage implements OnInit {
   errorMsg = '';
   successMsg = '';
   isDark = false;
+  regions: Region[] = REGIONS;
+  communes: string[] = [];
 
   constructor(
     private profile: ProfileService,
@@ -31,6 +34,7 @@ export class ProfileViewPage implements OnInit {
       region: [''],
       age: ['', Validators.required]
     });
+    this.profileForm.get('region')?.valueChanges.subscribe(name => this.onRegionChange(name));
     this.isDark = this.theme.isDarkMode();
   }
 
@@ -44,10 +48,13 @@ export class ProfileViewPage implements OnInit {
       next: (res) => {
         this.user = res.student;
         this.profileForm.patchValue(this.user);
+        if (this.user.region) {
+          this.onRegionChange(this.user.region);
+        }
         this.loading = false;
       },
-      error: () => {
-        this.errorMsg = 'No se pudo cargar el perfil.';
+      error: (err) => {
+        this.errorMsg = err.error?.message || 'No se pudo cargar el perfil.';
         this.loading = false;
       }
     });
@@ -84,10 +91,18 @@ export class ProfileViewPage implements OnInit {
         this.successMsg = 'Perfil actualizado correctamente.';
         this.loading = false;
       },
-      error: () => {
-        this.errorMsg = 'Error al actualizar el perfil.';
+      error: (err) => {
+        this.errorMsg = err.error?.message || 'Error al actualizar el perfil.';
         this.loading = false;
       }
     });
+  }
+
+  onRegionChange(name: string) {
+    const region = this.regions.find(r => r.name === name);
+    this.communes = region ? region.communes : [];
+    if (!region) {
+      this.profileForm.get('comuna')?.setValue('');
+    }
   }
 }

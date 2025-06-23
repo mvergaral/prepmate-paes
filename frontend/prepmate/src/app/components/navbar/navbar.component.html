@@ -8,21 +8,41 @@
       [class.hidden]="!menuOpen"
       class="absolute left-0 top-full w-full bg-white dark:bg-slate-800 md:static md:flex md:gap-6 md:w-auto md:items-center md:space-x-6 md:mt-0 shadow md:shadow-none"
     >
-      <li><a routerLink="/home" class="block px-4 py-2 hover:underline">Inicio</a></li>
-      <li *ngIf="token$ | async">
-        <a routerLink="/subjects" class="block px-4 py-2 hover:underline">Materias</a>
+      <li>
+        <a routerLink="/home" class="flex items-center gap-1 px-4 py-2 hover:underline">
+          <ion-icon name="home-outline"></ion-icon>
+          Inicio
+        </a>
       </li>
       <li *ngIf="token$ | async">
-        <a routerLink="/profile/view" class="block px-4 py-2 hover:underline">Perfil</a>
+        <a routerLink="/subjects" class="flex items-center gap-1 px-4 py-2 hover:underline">
+          <ion-icon name="book-outline"></ion-icon>
+          Materias
+        </a>
+      </li>
+      <li *ngIf="token$ | async">
+        <a routerLink="/profile/view" class="flex items-center gap-1 px-4 py-2 hover:underline">
+          <ion-icon name="person-circle-outline"></ion-icon>
+          Perfil
+        </a>
       </li>
       <li *ngIf="(token$ | async) === null">
-        <a routerLink="/login" class="block px-4 py-2 hover:underline">Entrar</a>
+        <a routerLink="/login" class="flex items-center gap-1 px-4 py-2 hover:underline">
+          <ion-icon name="log-in-outline"></ion-icon>
+          Entrar
+        </a>
       </li>
       <li *ngIf="(token$ | async) === null">
-        <a routerLink="/signup" class="block px-4 py-2 hover:underline">Registro</a>
+        <a routerLink="/signup" class="flex items-center gap-1 px-4 py-2 hover:underline">
+          <ion-icon name="person-add-outline"></ion-icon>
+          Registro
+        </a>
       </li>
       <li *ngIf="token$ | async">
-        <button (click)="logout()" class="w-full text-left px-4 py-2 hover:underline">Salir</button>
+        <button (click)="logout()" class="flex items-center gap-1 w-full text-left px-4 py-2 hover:underline">
+          <ion-icon name="log-out-outline"></ion-icon>
+          Salir
+        </button>
       </li>
     </ul>
   </div>

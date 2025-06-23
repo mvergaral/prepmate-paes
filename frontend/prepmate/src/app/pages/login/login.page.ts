@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { AuthStore } from '../../store/auth.store';
+import { ErrorService } from '../../services/error.service';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,13 @@ import { AuthStore } from '../../store/auth.store';
 export class LoginPage {
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private auth: AuthService, private store: AuthStore, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private auth: AuthService,
+    private store: AuthStore,
+    private router: Router,
+    private error: ErrorService
+  ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
@@ -22,7 +29,7 @@ export class LoginPage {
 
   onSubmit() {
     if (this.loginForm.invalid) {
-      console.log('❌ Formulario inválido');
+      this.error.show('Por favor completa los campos requeridos.');
       return;
     }
 
@@ -32,7 +39,7 @@ export class LoginPage {
         this.router.navigate(['/subjects']);
       },
       error: (err) => {
-        console.error('❌ Error en login', err);
+        this.error.handle(err, 'Credenciales inválidas o error de conexión.');
       }
     });
   }
