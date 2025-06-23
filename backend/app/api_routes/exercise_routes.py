@@ -7,5 +7,6 @@ exercise_bp = Blueprint('exercise_api', __name__)
 @exercise_bp.route('/api/exercises', methods=['GET'])
 def get_exercises():
     materia = request.args.get('materia')
-    exercises = get_exercises_by_subject(materia)
+    difficulty = request.args.get('difficulty')
+    exercises = get_exercises_by_subject(materia, difficulty)
     return jsonify([e.to_dict() for e in exercises]), 200

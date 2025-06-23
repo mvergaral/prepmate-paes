@@ -1,4 +1,5 @@
 from .. import db
+from .assignment import Assignment
 
 class Subject(db.Model):
     __tablename__ = 'subjects'
@@ -9,3 +10,4 @@ class Subject(db.Model):
     area = db.Column(db.String(120), nullable=True)
 
     exercises = db.relationship('Exercise', back_populates='subject', cascade='all, delete-orphan')
+    assignments = db.relationship('Assignment', back_populates='subject', cascade='all, delete-orphan')

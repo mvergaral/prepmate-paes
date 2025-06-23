@@ -16,6 +16,11 @@ export class SessionPage implements OnInit {
   index = 0;
   selected: string | null = null;
   correct = 0;
+  asked = 0;
+  streakCorrect = 0;
+  streakWrong = 0;
+  difficultyLevels = ['fácil', 'media', 'difícil'];
+  difficultyIndex = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -26,10 +31,21 @@ export class SessionPage implements OnInit {
 
   ngOnInit() {
     this.materia = this.route.snapshot.paramMap.get('materia') || '';
-    this.exerciseService.getExercisesByMateria(this.materia).subscribe((res) => {
-      this.exercises = res;
-      this.loadCurrent();
-    });
+    this.loadExercises();
+  }
+
+  get difficulty() {
+    return this.difficultyLevels[this.difficultyIndex];
+  }
+
+  loadExercises() {
+    this.exerciseService
+      .getExercisesByMateria(this.materia, this.difficulty)
+      .subscribe((res) => {
+        this.exercises = res;
+        this.index = 0;
+        this.loadCurrent();
+      });
   }
 
   get current() {
@@ -37,7 +53,11 @@ export class SessionPage implements OnInit {
   }
 
   get done() {
-    return this.index >= this.exercises.length;
+    return this.asked >= this.maxQuestions;
+  }
+
+  get maxQuestions() {
+    return 10;
   }
 
   loadCurrent() {
@@ -60,8 +80,32 @@ export class SessionPage implements OnInit {
       .subscribe();
     if (isCorrect) {
       this.correct++;
+      this.streakCorrect++;
+      this.streakWrong = 0;
+    } else {
+      this.streakWrong++;
+      this.streakCorrect = 0;
     }
+    this.asked++;
+
+    if (this.streakCorrect >= 2 && this.difficultyIndex < this.difficultyLevels.length - 1) {
+      this.difficultyIndex++;
+      this.streakCorrect = 0;
+      this.loadExercises();
+      return;
+    }
+    if (this.streakWrong >= 2 && this.difficultyIndex > 0) {
+      this.difficultyIndex--;
+      this.streakWrong = 0;
+      this.loadExercises();
+      return;
+    }
+
     this.index++;
-    this.loadCurrent();
+    if (this.index >= this.exercises.length) {
+      this.loadExercises();
+    } else {
+      this.loadCurrent();
+    }
   }
 }

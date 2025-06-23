@@ -43,6 +43,11 @@ const routes: Routes = [
     path: 'session/:materia',
     loadChildren: () => import('./pages/session/session.module').then(m => m.SessionPageModule),
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'dashboard',
+    loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardPageModule),
+    canActivate: [AuthGuard]
   }
 ];
 
