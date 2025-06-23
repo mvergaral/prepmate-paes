@@ -182,6 +182,11 @@ El backend utiliza **Redis** como sistema de almacenamiento en memoria para func
   deactivate
   ```
 
+## 📚 Documentación Técnica
+
+Para un desglose técnico de la arquitectura y configuración consulta [TECHNICAL_README.md](TECHNICAL_README.md).
+
+
 ## 📘 API Reference
 
 Para ver la documentación completa de la API, consulta [API_DOCS.md](backend/API_DOCS.md).
