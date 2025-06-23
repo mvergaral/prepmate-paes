@@ -59,9 +59,15 @@ export class SessionPage implements OnInit {
     this.exerciseService
       .getExercisesByMateria(this.materia, this.difficulty)
       .subscribe((res) => {
-        this.exercises = res;
+        // filtrar ejercicios ya respondidos
+        this.exercises = res.filter((e) => !this.answeredIds.has(e.id));
         this.index = 0;
-        this.loadCurrent();
+        if (this.exercises.length === 0) {
+          // si no quedan ejercicios pendientes, finalizar la sesión
+          this.asked = this.maxQuestions;
+        } else {
+          this.loadCurrent();
+        }
       });
   }
 
@@ -78,7 +84,7 @@ export class SessionPage implements OnInit {
   }
 
   get maxQuestions() {
-    return 10;
+    return Math.min(10, this.totalExercises);
   }
 
   loadCurrent() {
