@@ -18,7 +18,11 @@ export class ExerciseService {
 
   constructor(private http: HttpClient) {}
 
-  getExercisesByMateria(materia: string): Observable<Exercise[]> {
-    return this.http.get<Exercise[]>(`${this.baseUrl}/api/exercises?materia=${materia}`);
+  getExercisesByMateria(materia: string, difficulty?: string): Observable<Exercise[]> {
+    const params = [`materia=${materia}`];
+    if (difficulty) {
+      params.push(`difficulty=${difficulty}`);
+    }
+    return this.http.get<Exercise[]>(`${this.baseUrl}/api/exercises?${params.join('&')}`);
   }
 }

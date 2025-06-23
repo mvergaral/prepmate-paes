@@ -7,12 +7,14 @@ class Assignment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     exercise_id = db.Column(db.Integer, db.ForeignKey('exercises.id'), nullable=False)
+    subject_id = db.Column(db.Integer, db.ForeignKey('subjects.id'), nullable=False)
     respuesta_entregada = db.Column(db.String(255), nullable=False)
     correcta = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     user = db.relationship('User')
-    exercise = db.relationship('Exercise')
+    exercise = db.relationship('Exercise', back_populates='assignments')
+    subject = db.relationship('Subject')
 
     def to_dict(self):
         return {
@@ -22,5 +24,5 @@ class Assignment(db.Model):
             'respuesta_entregada': self.respuesta_entregada,
             'correcta': self.correcta,
             'created_at': self.created_at.isoformat(),
-            'subject_id': self.exercise.subject_id if self.exercise else None,
+            'subject_id': self.subject_id,
         }

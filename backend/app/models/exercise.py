@@ -15,6 +15,9 @@ class Exercise(db.Model):
 
     subject_id = db.Column(db.Integer, db.ForeignKey('subjects.id'), nullable=False)
     subject = db.relationship('Subject', back_populates='exercises')
+    assignments = db.relationship(
+        'Assignment', back_populates='exercise', cascade='all, delete-orphan'
+    )
 
     def to_dict(self):
         return {

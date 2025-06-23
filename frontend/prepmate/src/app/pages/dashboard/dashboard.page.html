@@ -1,0 +1,50 @@
+<div class="min-h-screen bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark flex flex-col items-center px-3 py-16 gap-6">
+  <app-logo></app-logo>
+  <div class="w-full max-w-2xl bg-white dark:bg-slate-800 px-6 py-6 rounded-2xl shadow-xl space-y-6">
+    <h2 class="text-2xl font-bold text-primary mb-4 text-center">Mi Progreso</h2>
+
+    <div class="flex items-center gap-4 summary-card" *ngIf="progress.length">
+      <div class="relative w-24 h-24">
+        <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="45" stroke-width="10" class="text-slate-200" fill="none"/>
+          <circle cx="50" cy="50" r="45" stroke-width="10" class="text-primary" fill="none"
+            stroke-linecap="round"
+            stroke-dasharray="282"
+            [attr.stroke-dashoffset]="282 - overallPercent * 282"></circle>
+        </svg>
+        <div class="absolute inset-0 flex items-center justify-center font-bold text-xl">
+          {{ (overallPercent * 100) | number:'1.0-0' }}%
+        </div>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold">Progreso total</h3>
+        <p class="text-sm text-text-muted">{{ correct }} correctas de {{ total }} respuestas</p>
+      </div>
+    </div>
+
+    <ng-container *ngIf="progress.length; else noData">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div *ngFor="let p of progress" class="bg-white dark:bg-slate-900 p-4 rounded-xl shadow flex flex-col gap-2">
+          <div class="flex justify-between items-center mb-1">
+            <div class="flex items-center gap-2">
+              <ion-icon [name]="iconFor(p.subject)"></ion-icon>
+              <span class="font-semibold capitalize">{{ p.subject }}</span>
+            </div>
+            <span class="text-sm">{{ p.correct }} / {{ p.total }}</span>
+          </div>
+          <ion-progress-bar [value]="p.total ? p.correct / p.total : 0"></ion-progress-bar>
+          <div class="text-right">
+            <a [routerLink]="['/session', p.subject]" class="text-primary text-sm underline">Practicar</a>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #noData>
+      <p class="text-center text-sm text-text-muted">Aún no tienes respuestas registradas.</p>
+    </ng-template>
+
+    <div class="text-center text-sm text-text-muted">
+      <a [routerLink]="['/subjects']" class="underline hover:text-primary transition">&larr; Volver a materias</a>
+    </div>
+  </div>
+</div>

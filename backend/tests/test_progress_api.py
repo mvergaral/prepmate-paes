@@ -27,6 +27,7 @@ class TestProgressAPI(BaseTestCase):
             assignment = Assignment(
                 user_id=self.user_id,
                 exercise_id=exercise.id,
+                subject_id=subject.id,
                 respuesta_entregada='A',
                 correcta=True,
             )

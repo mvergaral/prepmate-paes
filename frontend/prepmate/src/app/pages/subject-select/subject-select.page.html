@@ -10,18 +10,27 @@
 
   <ion-card class="ion-card-custom w-96 max-w-full">
     <div class="px-4 py-4 space-y-4">
-      <ion-item class="ion-item-custom" *ngFor="let subject of subjects">
-        <ion-checkbox
-          slot="start"
-          [(ngModel)]="subject.selected"
-          class="ion-checkbox-custom mr-2"
-        ></ion-checkbox>
-        <ion-label class="font-semibold capitalize">{{ subject.name }}</ion-label>
-      </ion-item>
+        <ion-item class="ion-item-custom" *ngFor="let subject of subjects">
+          <ion-checkbox
+            slot="start"
+            [(ngModel)]="subject.selected"
+            class="ion-checkbox-custom mr-2"
+          ></ion-checkbox>
+          <ion-label class="font-semibold capitalize">{{ subject.name }}</ion-label>
+          <ion-button
+            slot="end"
+            fill="clear"
+            size="small"
+            [routerLink]="['/exercise', subject.name]"
+            class="text-primary"
+            >Ver</ion-button>
+        </ion-item>
       <ion-button expand="block" class="ion-button-custom mt-4" (click)="confirmSelection()">Confirmar</ion-button>
     </div>
   </ion-card>
   <div class="mt-4 text-center text-sm text-text-muted">
     <a [routerLink]="['/profile/view']" class="underline hover:text-primary transition">&larr; Volver al perfil</a>
+    <span class="mx-2">|</span>
+    <a [routerLink]="['/dashboard']" class="underline hover:text-primary transition">Ver progreso</a>
   </div>
 </div>
