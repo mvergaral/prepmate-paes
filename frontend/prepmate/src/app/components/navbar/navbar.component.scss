@@ -3,7 +3,8 @@
 }
 
 ul {
-  @apply md:flex md:relative md:top-auto md:left-auto;
+  @apply flex flex-col md:flex-row md:relative md:top-auto md:left-auto;
+  @apply w-full md:w-auto z-20;
   li a, li button {
     @apply transition-colors duration-200;
   }

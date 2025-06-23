@@ -43,3 +43,26 @@ class TestProgressAPI(BaseTestCase):
             self.assertEqual(res.status_code, 200)
             data = json.loads(res.data)
             self.assertEqual(data['progress'][0]['correct'], 1)
+
+    def test_progress_counts_unique_exercises(self):
+        """A repeated assignment for the same exercise should not increase totals."""
+        with self.app.app_context():
+            subject = Subject.query.first()
+            exercise = Exercise.query.first()
+            repeat = Assignment(
+                user_id=self.user_id,
+                exercise_id=exercise.id,
+                subject_id=subject.id,
+                respuesta_entregada='A',
+                correcta=True,
+            )
+            db.session.add(repeat)
+            db.session.commit()
+
+            res = self.client.get(
+                f'/api/progress/{self.user_id}',
+                headers={'Authorization': f'Bearer {self.token}'},
+            )
+            data = json.loads(res.data)
+            self.assertEqual(data['progress'][0]['total'], 1)
+            self.assertEqual(data['progress'][0]['correct'], 1)

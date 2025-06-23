@@ -22,6 +22,7 @@ export class SessionPage implements OnInit {
   answeredIds = new Set<number>();
   streakCorrect = 0;
   streakWrong = 0;
+  loading = false;
   difficultyLevels = ['fácil', 'media', 'difícil'];
   difficultyIndex = 0;
 
@@ -89,22 +90,32 @@ export class SessionPage implements OnInit {
 
   loadCurrent() {
     this.selected = null;
+    this.loading = false;
   }
 
   submit() {
-    if (!this.current || !this.selected) {
+    if (!this.current || !this.selected || this.loading) {
       return;
     }
     const user = this.store['state'].user;
-    const isCorrect = this.selected === this.current.correct_answer;
+    const current = this.current;
+    const answer = this.selected;
+    const isCorrect = answer === current.correct_answer;
+    this.loading = true;
     this.assignmentService
       .submitAssignment({
         user_id: user.id,
-        exercise_id: this.current.id,
-        respuesta_entregada: this.selected,
+        exercise_id: current.id,
+        respuesta_entregada: answer,
         correcta: isCorrect,
       })
-      .subscribe();
+      .subscribe(() => {
+        this.loading = false;
+        this.afterSubmit(isCorrect, current.id);
+      });
+  }
+
+  private afterSubmit(isCorrect: boolean, id: number) {
     this.showResult(isCorrect);
     if (isCorrect) {
       this.correct++;
@@ -115,8 +126,8 @@ export class SessionPage implements OnInit {
       this.streakCorrect = 0;
     }
 
-    if (!this.answeredIds.has(this.current.id)) {
-      this.answeredIds.add(this.current.id);
+    if (!this.answeredIds.has(id)) {
+      this.answeredIds.add(id);
       this.asked++;
     }
 
@@ -147,6 +158,7 @@ export class SessionPage implements OnInit {
     this.answeredIds.clear();
     this.streakCorrect = 0;
     this.streakWrong = 0;
+    this.loading = false;
     this.difficultyIndex = 0;
     this.exerciseService
       .getExercisesByMateria(this.materia)
