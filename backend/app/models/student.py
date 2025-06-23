@@ -12,3 +12,4 @@ class Student(User):
     colegio = db.Column(db.String(120), nullable=True)
     comuna = db.Column(db.String(120), nullable=True)
     region = db.Column(db.String(120), nullable=True)
+    selected_subjects = db.Column(db.JSON, nullable=True, default=list)

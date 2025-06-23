@@ -16,3 +16,4 @@ class StudentSchema(SQLAlchemySchema):
     colegio = auto_field()
     comuna = auto_field()
     region = auto_field()
+    selected_subjects = auto_field()

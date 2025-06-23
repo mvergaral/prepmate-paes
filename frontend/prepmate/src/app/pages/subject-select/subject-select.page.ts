@@ -17,6 +17,12 @@ export class SubjectSelectPage implements OnInit {
     this.subjectService.getSubjects().subscribe(res => {
       const arr = (res as any).data || res;
       this.subjects = arr.map((s: any) => ({ ...s, selected: false }));
+      this.subjectService.fetchSelectedSubjects().subscribe(saved => {
+        const selected = saved.selected_subjects || [];
+        this.subjects.forEach(s => {
+          s.selected = selected.includes(s.name);
+        });
+      });
     });
   }
 
