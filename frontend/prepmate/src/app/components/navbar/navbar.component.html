@@ -6,7 +6,7 @@
     </button>
     <ul
       [class.hidden]="!menuOpen"
-      class="absolute left-0 top-full w-full bg-white dark:bg-slate-800 md:static md:flex md:gap-6 md:w-auto md:items-center md:space-x-6 md:mt-0 shadow md:shadow-none"
+      class="absolute left-0 top-full w-full bg-white dark:bg-slate-800 z-20 flex flex-col gap-2 md:static md:flex-row md:gap-6 md:w-auto md:items-center md:space-x-6 md:mt-0 shadow md:shadow-none"
     >
       <li>
         <a routerLink="/home" class="flex items-center gap-1 px-4 py-2 hover:underline">
@@ -37,6 +37,12 @@
           <ion-icon name="person-add-outline"></ion-icon>
           Registro
         </a>
+      </li>
+      <li>
+        <button (click)="toggleDarkMode()" class="flex items-center gap-1 w-full text-left px-4 py-2 hover:underline">
+          <ion-icon [name]="isDark ? 'sunny-outline' : 'moon-outline'"></ion-icon>
+          {{ isDark ? 'Claro' : 'Oscuro' }}
+        </button>
       </li>
       <li *ngIf="token$ | async">
         <button (click)="logout()" class="flex items-center gap-1 w-full text-left px-4 py-2 hover:underline">

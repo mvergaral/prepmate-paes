@@ -16,7 +16,7 @@
           </ion-item>
         </ion-radio-group>
       </ion-list>
-      <ion-button class="ion-button-custom w-full" (click)="submit()" [disabled]="!selected">Responder</ion-button>
+      <ion-button class="ion-button-custom w-full" (click)="submit()" [disabled]="!selected || loading">Responder</ion-button>
     </div>
   </ion-card>
   <div *ngIf="done" class="w-96 max-w-full bg-white dark:bg-slate-800 px-5 py-6 rounded-2xl shadow-xl text-center space-y-4">
