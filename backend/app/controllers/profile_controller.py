@@ -3,6 +3,7 @@ from ..services.auth_middleware import jwt_required
 from ..models import Student
 from ..schemas import StudentSchema
 from .. import db
+import bleach
 
 profile_bp = Blueprint('profile', __name__)
 student_schema = StudentSchema()
@@ -20,15 +21,16 @@ def create_profile():
     # Verificar si ya existe perfil
     if Student.query.filter_by(id=user.id).first():
         return jsonify({'message': 'El perfil ya existe'}), 400
+    clean = lambda s: bleach.clean(s, strip=True) if isinstance(s, str) else s
     db.session.execute(
         Student.__table__.insert().values(
             id=user.id,
-            name=data['name'],
-            rut=data['rut'],
+            name=clean(data['name']),
+            rut=clean(data['rut']),
             age=data['age'],
-            colegio=data['colegio'],
-            comuna=data['comuna'],
-            region=data['region'],
+            colegio=clean(data['colegio']),
+            comuna=clean(data['comuna']),
+            region=clean(data['region']),
             accepted_terms=data.get('accepted_terms', False)
         )
     )
@@ -48,9 +50,10 @@ def update_profile():
     student = Student.query.filter_by(id=user.id).first()
     if not student:
         return jsonify({'message': 'Perfil no encontrado'}), 404
+    clean = lambda s: bleach.clean(s, strip=True) if isinstance(s, str) else s
     for field in ['name', 'rut', 'age', 'colegio', 'comuna', 'region']:
         if field in data:
-            setattr(student, field, data[field])
+            setattr(student, field, clean(data[field]))
     db.session.commit()
     return jsonify({'student': student_schema.dump(student)}), 200
 

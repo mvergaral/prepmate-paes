@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ProfileService } from '../../services/profile.service';
+import { REGIONS, Region } from '../../data/regions';
 
 @Component({
   selector: 'app-profile',
@@ -13,6 +14,8 @@ export class ProfilePage implements OnInit {
   profileForm: FormGroup;
   loading = false;
   errorMsg = '';
+  regions: Region[] = REGIONS;
+  communes: string[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -24,11 +27,21 @@ export class ProfilePage implements OnInit {
       comuna: ['', Validators.required],
       region: ['', Validators.required]
     });
+
+    this.profileForm.get('region')?.valueChanges.subscribe(regionName => {
+      const region = this.regions.find(r => r.name === regionName);
+      this.communes = region ? region.communes : [];
+      this.profileForm.get('comuna')?.setValue('');
+    });
   }
 
-  // Inicialmente no se requiere lógica al cargar la vista
-  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const regionName = this.profileForm.get('region')?.value;
+    if (regionName) {
+      const region = this.regions.find(r => r.name === regionName);
+      this.communes = region ? region.communes : [];
+    }
+  }
 
   onSubmit() {
     if (this.profileForm.invalid) {
@@ -44,7 +57,7 @@ export class ProfilePage implements OnInit {
       },
       error: (err) => {
         this.loading = false;
-        this.errorMsg = 'Error al guardar el perfil.';
+        this.errorMsg = err.error?.message || 'Error al guardar el perfil.';
       }
     });
   }

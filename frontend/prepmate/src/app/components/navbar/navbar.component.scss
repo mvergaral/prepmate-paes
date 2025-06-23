@@ -4,4 +4,7 @@
 
 ul {
   @apply md:flex md:relative md:top-auto md:left-auto;
+  li a, li button {
+    @apply transition-colors duration-200;
+  }
 }

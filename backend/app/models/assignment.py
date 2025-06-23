@@ -13,3 +13,14 @@ class Assignment(db.Model):
 
     user = db.relationship('User')
     exercise = db.relationship('Exercise')
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'exercise_id': self.exercise_id,
+            'respuesta_entregada': self.respuesta_entregada,
+            'correcta': self.correcta,
+            'created_at': self.created_at.isoformat(),
+            'subject_id': self.exercise.subject_id if self.exercise else None,
+        }

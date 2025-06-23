@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { AuthStore } from '../../store/auth.store';
+import { ErrorService } from '../../services/error.service';
 
 @Component({
   selector: 'app-signup',
@@ -18,7 +19,13 @@ export class SignupPage {
     return password === confirmPassword ? null : { passwordMismatch: true };
   }
 
-  constructor(private fb: FormBuilder, private router: Router, private auth: AuthService, private store: AuthStore) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private auth: AuthService,
+    private store: AuthStore,
+    private error: ErrorService
+  ) {
     this.signupForm = this.fb.group({
       name: ['', Validators.required],
       rut: ['', Validators.required],
@@ -34,19 +41,19 @@ export class SignupPage {
 
   onSubmit() {
     if (this.signupForm.invalid) {
-      console.log('❌ Formulario inválido');
+      this.error.show('Por favor revisa los campos del formulario.');
       return;
     }
 
     const { name, rut, age, email, password, terms } = this.signupForm.value;
-    this.auth.signup({ name, rut, age: Number(age), email, password, terms }).subscribe({
-      next: (res) => {
-        this.store.setSession(res);
-        this.router.navigate(['/subjects']);
-      },
-      error: (err) => {
-        console.error('❌ Error en registro', err);
-      }
-    });
+      this.auth.signup({ name, rut, age: Number(age), email, password, terms }).subscribe({
+        next: (res) => {
+          this.store.setSession(res);
+          this.router.navigate(['/subjects']);
+        },
+        error: (err) => {
+          this.error.handle(err, 'No se pudo completar el registro.');
+        }
+      });
   }
 }
