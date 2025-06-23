@@ -1,23 +1,29 @@
 <div class="min-h-screen bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark flex flex-col items-center px-3 py-16 gap-8">
   <app-logo></app-logo>
-  <div class="w-96 max-w-full bg-white dark:bg-slate-800 px-5 py-4 rounded-2xl shadow-xl" *ngIf="current">
-    <h2 class="text-2xl font-bold text-primary mb-4">{{ materia }}</h2>
-    <p class="progress">Pregunta {{ index + 1 }} de {{ exercises.length }}</p>
-    <p class="font-semibold mb-2">{{ current.title }}</p>
-    <ion-list>
-      <ion-radio-group [(ngModel)]="selected">
-        <ion-item *ngFor="let opt of current.options | keyvalue">
-          <ion-label>{{ opt.key }}. {{ opt.value }}</ion-label>
-          <ion-radio slot="start" [value]="opt.key"></ion-radio>
-        </ion-item>
-      </ion-radio-group>
-    </ion-list>
-    <ion-button class="ion-button-custom mt-4" (click)="submit()">Responder</ion-button>
-  </div>
+  <ion-card class="ion-card-custom w-96 max-w-full" *ngIf="current">
+    <div class="p-4 space-y-4">
+      <div class="flex items-center justify-between">
+        <h2 class="text-xl font-bold text-primary">{{ materia }}</h2>
+        <span class="text-sm text-text-muted">{{ answeredCount + 1 }} / {{ totalExercises }}</span>
+      </div>
+      <ion-progress-bar [value]="answeredCount / totalExercises" aria-label="Progreso de preguntas"></ion-progress-bar>
+      <p class="font-semibold" [innerText]="current.title"></p>
+      <ion-list>
+        <ion-radio-group [(ngModel)]="selected" [attr.aria-label]="current.title" (keyup.enter)="submit()">
+          <ion-item *ngFor="let opt of current.options | keyvalue" lines="full">
+            <ion-label>{{ opt.key }}. {{ opt.value }}</ion-label>
+            <ion-radio slot="start" [value]="opt.key"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </ion-list>
+      <ion-button class="ion-button-custom w-full" (click)="submit()" [disabled]="!selected">Responder</ion-button>
+    </div>
+  </ion-card>
   <div *ngIf="done" class="w-96 max-w-full bg-white dark:bg-slate-800 px-5 py-6 rounded-2xl shadow-xl text-center space-y-4">
     <h2 class="text-xl font-bold text-primary">¡Sesión completada!</h2>
-    <p>Respondiste {{ correct }} de {{ exercises.length }} preguntas correctamente.</p>
-    <ion-button [routerLink]="['/subjects']" class="ion-button-custom mt-2">Volver a materias</ion-button>
-    <ion-button [routerLink]="['/dashboard']" fill="outline" class="ion-button-custom mt-2 ml-2">Ver progreso</ion-button>
+    <p>Respondiste {{ correct }} de {{ answeredCount }} preguntas correctamente.</p>
+    <ion-button class="ion-button-custom" (click)="restart()">Volver a ejercitar</ion-button>
+    <ion-button [routerLink]="['/subjects']" fill="outline" class="ion-button-custom mt-2">Elegir materias</ion-button>
+    <ion-button [routerLink]="['/dashboard']" fill="outline" class="ion-button-custom mt-2">Ver progreso</ion-button>
   </div>
 </div>

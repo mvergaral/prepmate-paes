@@ -68,3 +68,33 @@ def get_profile():
     if not student:
         return jsonify({'message': 'Perfil no encontrado'}), 404
     return jsonify({'student': student_schema.dump(student)}), 200
+
+
+@profile_bp.route('/profile/subjects', methods=['PUT'])
+@jwt_required
+def update_selected_subjects():
+    user = g.user
+    if user.role != 'student':
+        return jsonify({'message': 'Solo los estudiantes pueden modificar perfil'}), 403
+    data = request.get_json() or {}
+    subjects = data.get('subjects', [])
+    if not isinstance(subjects, list):
+        return jsonify({'message': 'Formato inválido'}), 400
+    student = Student.query.filter_by(id=user.id).first()
+    if not student:
+        return jsonify({'message': 'Perfil no encontrado'}), 404
+    student.selected_subjects = subjects
+    db.session.commit()
+    return jsonify({'selected_subjects': student.selected_subjects}), 200
+
+
+@profile_bp.route('/profile/subjects', methods=['GET'])
+@jwt_required
+def get_selected_subjects():
+    user = g.user
+    if user.role != 'student':
+        return jsonify({'message': 'Solo los estudiantes pueden ver perfil'}), 403
+    student = Student.query.filter_by(id=user.id).first()
+    if not student:
+        return jsonify({'message': 'Perfil no encontrado'}), 404
+    return jsonify({'selected_subjects': student.selected_subjects or []}), 200

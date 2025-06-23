@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ExerciseService, Exercise } from '../../services/exercise.service';
 import { AssignmentService } from '../../services/assignment.service';
 import { AuthStore } from '../../store/auth.store';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-session',
@@ -17,6 +18,8 @@ export class SessionPage implements OnInit {
   selected: string | null = null;
   correct = 0;
   asked = 0;
+  totalExercises = 0;
+  answeredIds = new Set<number>();
   streakCorrect = 0;
   streakWrong = 0;
   difficultyLevels = ['fácil', 'media', 'difícil'];
@@ -26,11 +29,25 @@ export class SessionPage implements OnInit {
     private route: ActivatedRoute,
     private exerciseService: ExerciseService,
     private assignmentService: AssignmentService,
-    private store: AuthStore
+    private store: AuthStore,
+    private toastCtrl: ToastController
   ) {}
+
+  async showResult(correct: boolean) {
+    const toast = await this.toastCtrl.create({
+      message: correct ? '¡Respuesta correcta!' : 'Respuesta incorrecta.',
+      duration: 1500,
+      color: correct ? 'success' : 'danger',
+      position: 'top'
+    });
+    await toast.present();
+  }
 
   ngOnInit() {
     this.materia = this.route.snapshot.paramMap.get('materia') || '';
+    this.exerciseService
+      .getExercisesByMateria(this.materia)
+      .subscribe((res) => (this.totalExercises = res.length));
     this.loadExercises();
   }
 
@@ -56,6 +73,10 @@ export class SessionPage implements OnInit {
     return this.asked >= this.maxQuestions;
   }
 
+  get answeredCount() {
+    return this.answeredIds.size;
+  }
+
   get maxQuestions() {
     return 10;
   }
@@ -78,6 +99,7 @@ export class SessionPage implements OnInit {
         correcta: isCorrect,
       })
       .subscribe();
+    this.showResult(isCorrect);
     if (isCorrect) {
       this.correct++;
       this.streakCorrect++;
@@ -86,7 +108,11 @@ export class SessionPage implements OnInit {
       this.streakWrong++;
       this.streakCorrect = 0;
     }
-    this.asked++;
+
+    if (!this.answeredIds.has(this.current.id)) {
+      this.answeredIds.add(this.current.id);
+      this.asked++;
+    }
 
     if (this.streakCorrect >= 2 && this.difficultyIndex < this.difficultyLevels.length - 1) {
       this.difficultyIndex++;
@@ -107,5 +133,18 @@ export class SessionPage implements OnInit {
     } else {
       this.loadCurrent();
     }
+  }
+
+  restart() {
+    this.correct = 0;
+    this.asked = 0;
+    this.answeredIds.clear();
+    this.streakCorrect = 0;
+    this.streakWrong = 0;
+    this.difficultyIndex = 0;
+    this.exerciseService
+      .getExercisesByMateria(this.materia)
+      .subscribe((res) => (this.totalExercises = res.length));
+    this.loadExercises();
   }
 }

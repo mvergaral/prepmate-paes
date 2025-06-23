@@ -6,6 +6,7 @@ import { environment } from '../../environments/environment';
 @Injectable({ providedIn: 'root' })
 export class SubjectService {
   private baseUrl = environment.apiUrl + '/subjects';
+  private selectionUrl = environment.apiUrl + '/profile/subjects';
 
   constructor(private http: HttpClient) {}
 
@@ -15,10 +16,19 @@ export class SubjectService {
 
   saveSelectedSubjects(names: string[]) {
     localStorage.setItem('selectedSubjects', JSON.stringify(names));
+    this.updateSelectedSubjects(names).subscribe();
   }
 
   getSelectedSubjects(): string[] {
     const data = localStorage.getItem('selectedSubjects');
     return data ? JSON.parse(data) : [];
+  }
+
+  updateSelectedSubjects(names: string[]) {
+    return this.http.put<{ selected_subjects: string[] }>(this.selectionUrl, { subjects: names });
+  }
+
+  fetchSelectedSubjects() {
+    return this.http.get<{ selected_subjects: string[] }>(this.selectionUrl);
   }
 }

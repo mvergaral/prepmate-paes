@@ -1,3 +1,7 @@
-.progress {
-  @apply mb-4 text-sm text-text-muted;
+
+ion-progress-bar {
+  --background: theme('colors.gray.200');
+  --buffer-background: theme('colors.gray.200');
+  --progress-background: theme('colors.teal.500');
+  @apply h-2 rounded-lg mb-2;
 }
